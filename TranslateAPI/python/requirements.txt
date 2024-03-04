@@ -1,0 +1,10 @@
+openai
+openai-whisper
+python-dotenv
+fastapi
+typing
+pydantic
+httpx
+easynmt
+'uvicorn[standard]'
+python-multipart
