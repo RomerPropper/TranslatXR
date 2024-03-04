@@ -6,5 +6,5 @@ typing
 pydantic
 httpx
 easynmt
-'uvicorn[standard]'
+uvicorn[standard]
 python-multipart
