@@ -7,3 +7,4 @@ pydantic
 httpx
 easynmt
 'uvicorn[standard]'
+python-multipart
