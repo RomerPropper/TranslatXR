@@ -11,7 +11,7 @@ import subprocess
 
 load_dotenv()
 
-==================================================================================
+# ==================================================================================
 
 def offline_transcribe(audio_file, input_language="", whisper_model=""):
     if whisper_model == "" and input_language == "en":
@@ -45,7 +45,7 @@ def transcribe(audio_file, input_language="", model="", online=False):
         transcribed_text = offline_transcribe(audio_file, input_language, model)
     return transcribed_text
 
-==================================================================================
+# ==================================================================================
 
 def offline_translate(text, input_language, output_language, language_model='opus-mt'):
     if output_language in ["en-us", "en-gb"]:
@@ -69,7 +69,7 @@ def translate(text, input_language, output_language, online=False):
         result = offline_translate(text, input_language, output_language)
     return result
 
-==================================================================================
+# ==================================================================================
 
 app = FastAPI()
 
