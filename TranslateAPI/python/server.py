@@ -1,6 +1,7 @@
 # TODO: remove references to offline services in production version of this file
 
 from fastapi import FastAPI, HTTPException, Form, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional, Annotated, Dict
 from pydantic import BaseModel
 import whisper
@@ -74,6 +75,15 @@ def translate(text, input_language, output_language, online=False):
 
 app = FastAPI()
 
+# For testing, may need to update in the future when publishing
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
 classifier = pipeline("sentiment-analysis", model="michellejieli/emotion_text_classifier")
 
 # TODO: rename all this
@@ -135,6 +145,11 @@ async def analyze_sentiment(request_data: Dict[str, str]):
         return {"result": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+# Endpoint for quick set up test
+@app.get("/test")
+async def read_test():
+    return {"message": "Test endpoint is working"}
 
 if __name__ == "__main__":
     import uvicorn
