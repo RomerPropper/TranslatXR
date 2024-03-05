@@ -16,7 +16,7 @@ load_dotenv()
 # ==================================================================================
 
 def offline_transcribe(audio_file, input_language="", whisper_model=""):
-    if whisper_model == "" and input_language == "en":
+    if not whisper_model and input_language == "en":
         whisper_model = "small.en"
     elif whisper_model == "":
         whisper_model = "medium"
@@ -54,9 +54,15 @@ def offline_translate(text, input_language, output_language, language_model='opu
         print('WARN: English variant "{}" is unsupported by EasyNMT; using "{}" instead'.format(output_language, "en"))
         output_language = "en"
     model = EasyNMT(language_model)
-    result = model.translate(text, source_lang=input_language, target_lang=output_language)
-    #result = model.translate(text, source_lang="ja", target_lang="en")
-    return text
+
+    # TODO: figure out if this conditional is even needed
+    result = ""
+    if input_language:
+        result = model.translate(text, source_lang=input_language, target_lang=output_language)
+    else:
+        result = model.translate(text, target_lang=output_language)
+        
+    return result
 
 def online_translate(text, input_language, output_language):
     translator = deepl.Translator(os.environ.get('DEEPL_API_KEY'))
@@ -94,8 +100,8 @@ translation_api_url = os.environ.get('API_PROXY_TRANSLATION_URL')
 #async def proxy_api(form: RequestForm):
 async def proxy_api(
     audio_file: UploadFile,
-    source_lang: Annotated[str, Form()],
     target_lang: Annotated[str, Form()],
+    source_lang: Annotated[Optional[str], Form()] = None,
     ):
     try:
         # Proxying transcription API
@@ -116,7 +122,11 @@ async def proxy_api(
          
         # Proxying translation API
         async with httpx.AsyncClient() as client:
-            translation_response = await client.post(translation_api_url, json={"text": transcription_result, "source_lang": source_lang, "target_lang":target_lang})
+            translation_response = ""
+            if not source_lang:
+                translation_response = await client.post(translation_api_url, json={"text": transcription_result, "target_lang":target_lang})
+            else:
+                translation_response = await client.post(translation_api_url, json={"text": transcription_result, "source_lang": source_lang, "target_lang":target_lang})
             translation_result = translation_response.json()
 
         #async with httpx.AsyncClient() as client:
