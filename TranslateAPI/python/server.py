@@ -1,10 +1,12 @@
 # TODO: remove references to offline services in production version of this file
 
 from fastapi import FastAPI, HTTPException, Form, File, UploadFile
-from typing import List, Optional, Annotated
+from fastapi.middleware.cors import CORSMiddleware
+from typing import List, Optional, Annotated, Dict
 from pydantic import BaseModel
 import whisper
 from dotenv import load_dotenv
+from transformers import pipeline
 import httpx
 import os
 import subprocess
@@ -73,6 +75,17 @@ def translate(text, input_language, output_language, online=False):
 
 app = FastAPI()
 
+# For testing, may need to update in the future when publishing
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
+classifier = pipeline("sentiment-analysis", model="michellejieli/emotion_text_classifier")
+
 # TODO: rename all this
 transcription_api_url = os.environ.get('API_PROXY_TRANSCRIPTION_URL')
 translation_api_url = os.environ.get('API_PROXY_TRANSLATION_URL')
@@ -118,6 +131,25 @@ async def proxy_api(
     except httpx.HTTPError as e:
         # Handle HTTP errors from remote servers
         raise HTTPException(status_code=e.response.status_code, detail=f"Error from remote server: {e}")
+
+@app.post("/sentiment")
+async def analyze_sentiment(request_data: Dict[str, str]):
+    try:
+        # Pull text from body
+        text = request_data.get("text", "")
+        if not text:
+            raise ValueError("Text for analysis must be provided.")
+        
+        # Perform sentiment analysis
+        result = classifier(text)
+        return {"result": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+# Endpoint for quick set up test
+@app.get("/test")
+async def read_test():
+    return {"message": "Test endpoint is working"}
 
 if __name__ == "__main__":
     import uvicorn
