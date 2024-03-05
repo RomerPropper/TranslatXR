@@ -79,7 +79,14 @@ def translate(text, input_language, output_language, online=False):
 
 # ==================================================================================
 
-app = FastAPI()
+tags_metadata = [
+    {
+        "name": "translate",
+        "description": "Translate audio file to text in target language",
+    },
+]
+
+app = FastAPI(openapi_tags=tags_metadata)
 
 # For testing, may need to update in the future when publishing
 app.add_middleware(
@@ -96,12 +103,13 @@ classifier = pipeline("sentiment-analysis", model="michellejieli/emotion_text_cl
 transcription_api_url = os.environ.get('API_PROXY_TRANSCRIPTION_URL')
 translation_api_url = os.environ.get('API_PROXY_TRANSLATION_URL')
 
-@app.post("/translate")
+
+@app.post("/translate", tags=["translate"])
 #async def proxy_api(form: RequestForm):
-async def proxy_api(
-    audio_file: UploadFile,
-    target_lang: Annotated[str, Form()],
-    source_lang: Annotated[Optional[str], Form()] = None,
+async def translate_audio(
+    target_lang: Annotated[str, Form(description="Language to translate to")],
+    source_lang: Annotated[Optional[str], Form(description="Language to translate from")] = None,
+    audio_file: UploadFile = File(description="Audio file to translate"),
     ):
     try:
         # Proxying transcription API
@@ -114,12 +122,23 @@ async def proxy_api(
         #    translation_response = await client.post(translation_api_url, json={"text": transcription_result["transcription"]})
         #    translation_result = translation_response.json()
 
-        # TODO: replace this with http call to another remote server (see comment examples above/below as well as live example below)
+        # TODO: replace this block with http call to another remote server (see comment examples above/below as well as live example below)
+        #==================================================
         unique_filename = f"uploaded_{audio_file.filename}"
         with open(unique_filename, "wb") as f:
             f.write(audio_file.file.read())
         transcription_result = transcribe(unique_filename, source_lang)
-         
+        
+        # delete the file we just created
+        try:
+            os.remove(unique_filename)
+            print(f"File {unique_filename} deleted successfully.")
+        except FileNotFoundError:
+            print(f"File {unique_filename} not found.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        #==================================================
+
         # Proxying translation API
         async with httpx.AsyncClient() as client:
             translation_response = ""
