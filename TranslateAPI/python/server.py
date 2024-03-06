@@ -35,7 +35,7 @@ def online_transcribe(audio_file, source_lang="", whisper_model="whisper-1"):
     transcription = client.audio.transcriptions.create(
             language=source_lang,
             model=whisper_model,
-            file=audio_file,
+            file=audio,
             response_format="text"
             )
     transcribed_text = transcription.text
@@ -126,10 +126,12 @@ async def translate_audio(
     try:
         #==================================================
         # TODO: hash the file/filename to avoid collisions
+        transcription_result = ""
         unique_filename = f"uploaded_{audio_file.filename}"
         with open(unique_filename, "wb") as f:
             f.write(audio_file.file.read())
-        transcription_result = transcribe(unique_filename, source_lang)
+        transcription_result = transcribe(unique_filename, source_lang, online=is_online)
+
         
         # delete the file we just created
         try:
