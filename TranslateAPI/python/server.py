@@ -1,4 +1,5 @@
 # TODO: remove references to offline services (localhost, EasyNMT, whisper) in production version of this file
+# TODO: remove all is_online parameters and just use the environment variables directly
 
 from fastapi import FastAPI, HTTPException, Form, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -14,6 +15,11 @@ import os
 import subprocess
 
 load_dotenv()
+
+class TranslateTextBody(BaseModel):
+    text: str
+    target_lang: str
+    source_lang: str | None = None
 
 # ==================================================================================
 
@@ -99,7 +105,11 @@ async def translate(text, source_lang, target_lang, online=False, is_localhost=T
 tags_metadata = [
     {
         "name": "translate",
-        "description": "Translate audio file to text in target language",
+        "description": "Translate to target language",
+    },
+    {
+        "name": "transcribe",
+        "description": "Transcribe audio file",
     },
 ]
 
@@ -117,7 +127,7 @@ app.add_middleware(
 classifier = pipeline("sentiment-analysis", model="michellejieli/emotion_text_classifier")
 is_online = os.environ.get("API_MODE").lower() == "online"
 
-@app.post("/translate", tags=["translate"])
+@app.post("/translate/audio", tags=["translate"])
 async def translate_audio(
     target_lang: Annotated[str, Form(description="Language to translate to")],
     source_lang: Annotated[Optional[str], Form(description="Language to translate from")] = None,
@@ -150,6 +160,46 @@ async def translate_audio(
     except httpx.HTTPError as e:
         # Handle HTTP errors from remote servers
         raise HTTPException(status_code=e.response.status_code, detail=f"Error from remote server: {e}")
+
+@app.post("/translate/text", tags=["translate"])
+async def translate_text(body: TranslateTextBody):
+    try:
+        translation_result = ""
+        translation_result = await translate(body.text, body.source_lang, body.target_lang, online=is_online)
+        return {"translation": translation_result}
+    except httpx.HTTPError as e:
+        raise HTTPException(status_code=e.response.status_code, detail=f"Error from remote server: {e}")
+
+@app.post("/transcribe", tags=["transcribe"])
+async def transcribe_audio(
+    source_lang: Annotated[Optional[str], Form(description="Language to transcribe")] = None,
+    audio_file: UploadFile = File(description="Audio file to transcribe"),
+    ):
+    try:
+        #==================================================
+        # TODO: hash the file/filename to avoid collisions
+        transcription_result = ""
+        unique_filename = f"uploaded_{audio_file.filename}"
+        with open(unique_filename, "wb") as f:
+            f.write(audio_file.file.read())
+        transcription_result = transcribe(unique_filename, source_lang, online=is_online)
+
+        
+        # delete the file we just created
+        try:
+            os.remove(unique_filename)
+            print(f"File {unique_filename} deleted successfully.")
+        except FileNotFoundError:
+            print(f"File {unique_filename} not found.")
+        except Exception as e:
+            print(f"An error occurred: {e}")
+        #==================================================
+
+        return {"transcription": transcription_result}
+    
+    except httpx.HTTPError as e:
+        raise HTTPException(status_code=e.response.status_code, detail=f"Error from remote server: {e}")
+
 
 @app.post("/sentiment")
 async def analyze_sentiment(request_data: Dict[str, str]):
