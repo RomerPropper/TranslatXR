@@ -21,6 +21,9 @@ class TranslateTextBody(BaseModel):
     target_lang: str
     source_lang: str | None = None
 
+class SentimentRequest(BaseModel):
+    text: str
+
 # ==================================================================================
 
 def offline_transcribe(audio_file, source_lang="", whisper_model=""):
@@ -202,10 +205,10 @@ async def transcribe_audio(
 
 
 @app.post("/sentiment")
-async def analyze_sentiment(request_data: Dict[str, str]):
+async def analyze_sentiment(request_data: SentimentRequest):
     try:
         # Pull text from body
-        text = request_data.get("text", "")
+        text = request_data.text
         if not text:
             raise ValueError("Text for analysis must be provided.")
         

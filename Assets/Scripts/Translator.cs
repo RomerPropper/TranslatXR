@@ -11,11 +11,13 @@ using UnityEngine;
 
 public static class Translator
 {
+
     public static string Transcribe(string filePath, string targetLang) {
         return "";
     }
 
     public static async Task<string> Transcribe(AudioClip recordedClip, string targetLang) {
+        string apiUrl = "https://translatxr.presidentialcorn.com";
         //Temporary workaround;
         ConvertToWav(recordedClip);
         string filePath = Path.Combine(Application.persistentDataPath, "tempRecordedAudio.wav");
@@ -30,7 +32,7 @@ public static class Translator
             formContent.Add(new StringContent(targetLang), "source_lang");
 
             // Send the request
-            var response = await client.PostAsync("https://translatxr.presidentialcorn.com/transcribe", formContent);
+            var response = await client.PostAsync(apiUrl + "/transcribe", formContent);
             Debug.Log(response);
             // Read and return the response content
             string responseString = await response.Content.ReadAsStringAsync();
@@ -40,8 +42,10 @@ public static class Translator
     }
 
     public static async Task<string> Translate(string message, string srcLang, string targetLang) {
+        string apiUrl = "https://translatxr.presidentialcorn.com";
+
         using (var client = new HttpClient())
-        {
+        {  
             // Prepare the JSON data
             var requestData = new
             {
@@ -55,7 +59,7 @@ public static class Translator
             var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             // Send the request
-            var response = await client.PostAsync("https://translatxr.presidentialcorn.com/translate/text", stringContent);
+            var response = await client.PostAsync(apiUrl + "/translate/text", stringContent);
 
             // Check if the request was successful
             response.EnsureSuccessStatusCode();
@@ -63,9 +67,62 @@ public static class Translator
             // Read and return the response content
             string responseString = await response.Content.ReadAsStringAsync();
 
+            // Once incoming has been translated to english
+                // try {
+                //     var sentimentResponseString = await Sentiment(new StringContent(responseString, Encoding.UTF8, "application/json"));
+                //     Debug.Log($"Sentiment Response: {sentimentResponseString}");
+                // } 
+                //     catch (Exception ex) {
+                //     Debug.LogError($"Sentiment method failed: {ex.Message}");
+                // }
             // TODO: Add emotion here
             var jsonObject = JObject.Parse(responseString);
             return jsonObject["translation"].ToString();
+        }
+    }
+
+    public static async Task<string> Sentiment(StringContent jsonPayload) {
+        string apiUrl = "https://translatxr.presidentialcorn.com";
+        
+        using (var httpClient = new HttpClient())
+        {
+            var response = await httpClient.PostAsync(apiUrl + "/sentiment", jsonPayload);
+            Debug.Log($"Response Status Code: {response.StatusCode}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseString = await response.Content.ReadAsStringAsync();
+                Debug.Log($"Sentiment Analysis Response: {responseString}");
+                return responseString;
+            }
+            else
+            {
+                throw new HttpRequestException($"Error: {response.ReasonPhrase}");
+            }
+        }
+    }
+
+    public static async Task<string> Sentiment(string textPayload) {
+        // string apiUrl = "https://translatxr.presidentialcorn.com";
+        string apiUrl = "http://localhost:8000";
+        
+        using (var httpClient = new HttpClient()) {
+            var jsonPayload = JsonConvert.SerializeObject(new { text = textPayload }); // Assuming you need to wrap the text in a JSON object
+            var content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+            Debug.Log($"Sending Sentiment Analysis Request: {jsonPayload}");
+
+            var response = await httpClient.PostAsync(apiUrl + "/sentiment", content);
+
+            if (response.IsSuccessStatusCode) {
+                var responseString = await response.Content.ReadAsStringAsync();
+                Debug.Log($"Sentiment Analysis Response: {responseString}");
+                return responseString;
+            } else {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                Debug.LogError($"Sentiment method failed with {response.StatusCode}: {errorContent}");
+                throw new HttpRequestException($"Error: {response.ReasonPhrase}");
+            }
         }
     }
 
