@@ -7,7 +7,7 @@ from typing import List, Optional, Annotated, Dict
 from pydantic import BaseModel
 import whisper
 import deepl
-#from easynmt import EasyNMT
+from easynmt import EasyNMT
 from dotenv import load_dotenv
 from transformers import pipeline
 import httpx
@@ -56,7 +56,7 @@ def transcribe(audio_file, source_lang="", model="", online=False):
     return transcribed_text
 
 # ==================================================================================
-"""
+
 async def offline_translate(text, source_lang, target_lang, language_model='opus-mt', is_localhost=True):
     result = ""
     if is_localhost:
@@ -86,7 +86,7 @@ async def offline_translate(text, source_lang, target_lang, language_model='opus
             raise # just rethrow
 
     return result
-"""
+
 def online_translate(text, source_lang, target_lang):
     translator = deepl.Translator(os.environ.get('DEEPL_API_KEY'))
     result = translator.translate_text(text, target_lang=target_lang)
@@ -125,7 +125,7 @@ app.add_middleware(
 )
 
 classifier = pipeline("sentiment-analysis", model="michellejieli/emotion_text_classifier")
-is_online = os.environ.get("API_MODE") == "online"
+is_online = os.environ.get("API_MODE").lower() == "online"
 
 @app.post("/translate/audio", tags=["translate"])
 async def translate_audio(
