@@ -62,7 +62,6 @@ public class NormcoreGM : MonoBehaviour
 
     private async void _Transcribe() {
         string tanscription = await Translator.Transcribe(recordedClip, _targetLang);
-        Debug.Log(tanscription);
         postTranscription(tanscription);
     }
 
