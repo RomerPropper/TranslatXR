@@ -161,7 +161,7 @@ async def translate_audio(
         # Handle HTTP errors from remote servers
         raise HTTPException(status_code=e.response.status_code, detail=f"Error from remote server: {e}")
 
-@app.post("/sentiment")
+@app.post("/sentiment", tags=["sentiment"])
 async def analyze_sentiment(request_data: Dict[str, str]):
     try:
         # Pull text from body
@@ -176,9 +176,14 @@ async def analyze_sentiment(request_data: Dict[str, str]):
         raise HTTPException(status_code=500, detail=str(e))
     
 # Endpoint for quick set up test
-@app.get("/test")
+@app.get("/test", tags=["test"])
 async def read_test():
     return {"message": "Test endpoint is working"}
+
+# Endpoint for online checking
+@app.get("/", tags=["root"])
+async def read_test():
+    return {"message": "API is online"}
 
 if __name__ == "__main__":
     import uvicorn
