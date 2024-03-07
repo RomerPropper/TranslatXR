@@ -26,7 +26,7 @@ public static class Translator
             var formContent = new MultipartFormDataContent();
             var audioContent = new ByteArrayContent(File.ReadAllBytes(filePath));
             audioContent.Headers.Add("Content-Type", "audio/wav");
-            formContent.Add(audioContent, "audio_file", "recorded_clip.wav");
+            formContent.Add(audioContent, "audio_file", "tempRecordedAudio.wav");
             formContent.Add(new StringContent(targetLang), "source_lang");
 
             // Send the request
