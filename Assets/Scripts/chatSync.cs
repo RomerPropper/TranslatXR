@@ -36,39 +36,41 @@ public class chatSync : RealtimeComponent<chatSyncModel>
     }
 
     private async void ChatTextDidChange(chatSyncModel model, string value) {
-        if (model.lang != normcoreGM.getTargetLang()) {
-            model.chatText = await TranslateBeforeChange(model.chatText);
+        
+        string[] lines = model.chatText.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+        string newLineAdded = lines.LastOrDefault();
+
+        string newMessage = newLineAdded.Split(";")[0];
+        string srcLang = newLineAdded.Split(";")[1];
+        string myLang = normcoreGM.getTargetLang();
+        if (srcLang != myLang)
+        {
+            string translatedNewMessage = await TranslateBeforeChange(newMessage, srcLang);
+            lines[lines.Length - 1] = translatedNewMessage;
+            model.chatText = string.Join(Environment.NewLine, lines);
+        }
+        else {
+            lines[lines.Length - 1] = newMessage;
+            model.chatText = string.Join(Environment.NewLine, lines);
         }
         UpdateChatText();
     }
 
-    private async Task<string> TranslateBeforeChange(string newText) {
+    private async Task<string> TranslateBeforeChange(string newText, string srcLang) {
         string myLang = normcoreGM.getTargetLang();
-        string[] lines = newText.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-        string lastLine = lines.LastOrDefault();
-        string translatedText = await Translator.Translate(lastLine, model.lang, myLang);
-        return newText += translatedText;
+        string translatedText =  await Translator.Translate(newText, srcLang, myLang);
+        return translatedText;
     }
 
 
     //This method should really not be used. Mostly here for initlization.
     public void SetText(string message, string lang) {
-        SetLanguage(lang);
-        model.chatText = message;
+        model.chatText = message + ";" + lang;
     }
 
     //This is the main method that will be called when we want to add text to the chatbox.
     public void AddText(string message, string lang) {
-        SetLanguage(lang);
-        model.chatText += message + "\n";
-    }
-
-    public void SetLanguage(string lang) {
-        model.lang = lang;
-    }
-
-    private string GetLanguage() {
-        return model.lang;
+        model.chatText += message + ";" + lang + "\n";
     }
 
 }

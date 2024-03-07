@@ -13,7 +13,7 @@ public class NormcoreGM : MonoBehaviour
     private string _previousChatText = default;
 
     public chatSync _chatSync;
-    private string _targetLang;
+    private string _targetLang = "en";
 
 
     //PTT Variables
