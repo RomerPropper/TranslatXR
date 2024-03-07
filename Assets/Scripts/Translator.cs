@@ -30,7 +30,7 @@ public static class Translator
             formContent.Add(new StringContent(targetLang), "source_lang");
 
             // Send the request
-            var response = await client.PostAsync("http://127.0.0.1:8000/transcribe", formContent);
+            var response = await client.PostAsync("https://translatxr.presidentialcorn.com/transcribe", formContent);
             Debug.Log(response);
             // Read and return the response content
             string responseString = await response.Content.ReadAsStringAsync();
@@ -55,13 +55,15 @@ public static class Translator
             var stringContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
             // Send the request
-            var response = await client.PostAsync("http://127.0.0.1:8000/translate/text", stringContent);
+            var response = await client.PostAsync("https://translatxr.presidentialcorn.com/translate/text", stringContent);
 
             // Check if the request was successful
             response.EnsureSuccessStatusCode();
 
             // Read and return the response content
             string responseString = await response.Content.ReadAsStringAsync();
+
+            // TODO: Add emotion here
             var jsonObject = JObject.Parse(responseString);
             return jsonObject["translation"].ToString();
         }

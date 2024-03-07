@@ -87,7 +87,7 @@ public class NormcoreGM : MonoBehaviour
     public void SetLangChinese()
     {
         Debug.Log("Language set to Chinese");
-        _targetLang = "zh";
+        _targetLang = "es";
     }
 
     public string getTargetLang() {
