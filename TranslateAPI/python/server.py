@@ -204,8 +204,13 @@ async def transcribe_audio(
         raise HTTPException(status_code=e.response.status_code, detail=f"Error from remote server: {e}")
 
 
+<<<<<<< HEAD
 @app.post("/sentiment")
 async def analyze_sentiment(request_data: SentimentRequest):
+=======
+@app.post("/sentiment", tags=["/sentiment"])
+async def analyze_sentiment(request_data: Dict[str, str]):
+>>>>>>> d512d18d55dbebe73739ae9b93cd5cdae6fa6a21
     try:
         # Pull text from body
         text = request_data.text
@@ -219,9 +224,14 @@ async def analyze_sentiment(request_data: SentimentRequest):
         raise HTTPException(status_code=500, detail=str(e))
     
 # Endpoint for quick set up test
-@app.get("/test")
+@app.get("/test", tags=["test"])
 async def read_test():
     return {"message": "Test endpoint is working"}
+
+# Endpoint for online checking
+@app.get("/", tags=["root"])
+async def read_test():
+    return {"message": "API is online"}
 
 if __name__ == "__main__":
     import uvicorn
