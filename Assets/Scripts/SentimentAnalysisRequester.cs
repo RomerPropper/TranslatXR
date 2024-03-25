@@ -1,7 +1,7 @@
-// using System.Collections;
-// using UnityEngine;
-// using UnityEngine.Networking;
-// using System.Text;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.Networking;
+using System.Text;
 
 public class SentimentAnalysisRequester : MonoBehaviour
 {
@@ -37,21 +37,21 @@ public class SentimentAnalysisRequester : MonoBehaviour
             request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
             request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
 
-//             // Set Headers
-//             request.SetRequestHeader("Content-Type", "application/json");
+            // Set Headers
+            request.SetRequestHeader("Content-Type", "application/json");
 
-//             // Send the request
-//             yield return request.SendWebRequest();
+            // Send the request
+            yield return request.SendWebRequest();
 
-//             if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
-//             {
-//                 Debug.LogError(request.error);
-//             }
-//             else
-//             {
-//                 Debug.Log("Response: " + request.downloadHandler.text);
-//                 callback?.Invoke(request.downloadHandler.text);
-//             }
-//         }
-//     }
-// }
+            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(request.error);
+            }
+            else
+            {
+                Debug.Log("Response: " + request.downloadHandler.text);
+                // callback?.Invoke(request.downloadHandler.text);
+            }
+        }
+    }
+}
