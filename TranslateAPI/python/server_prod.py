@@ -87,8 +87,10 @@ async def deepl_translate(text, source_lang, target_lang):
     return result.text
 
 # EasyNMT APIs
-async def easynmt_translate():
+async def easynmt_translate(text, source_lang, target_lang):
     try:
+        if source_lang == "en-us":
+            source_lang = "en"
         async with httpx.AsyncClient() as client:
             translation_api_url = os.environ.get('EASYNMT_TRANSLATION_URL')
             translation_response = ""
@@ -98,21 +100,22 @@ async def easynmt_translate():
                 translation_response = await client.post(translation_api_url, json={"text": text, "source_lang": source_lang, "target_lang": target_lang})
             result_json = translation_response.json()
             result = result_json["translated"]
+            return result
     except httpx.HTTPError as e:
         raise # just rethrow
 
 translate_function_dict = {
-    'google': google_translate,
-    'whisper': whisper_translate,
-    'openai': whisper_translate,
+#    'google': google_translate,``
+#    'whisper': whisper_translate,
+#    'openai': whisper_translate,
     'deepl': deepl_translate,
     'easynmt': easynmt_translate
 }
 
 transcribe_function_dict = {
-    'google': google_transcribe,
-    'whisper': whisper_transcribe,
-    'openai': whisper_transcribe
+#    'google': google_transcribe,
+#    'whisper': whisper_transcribe,
+#    'openai': whisper_transcribe
 }
 
 # ==================================================================================
