@@ -21,6 +21,9 @@ class TranslateTextBody(BaseModel):
     target_lang: str
     source_lang: str | None = None
 
+class SentimentRequest(BaseModel):
+    text: str
+
 # ==================================================================================
 
 def offline_transcribe(audio_file, source_lang="", whisper_model=""):
@@ -179,7 +182,7 @@ async def transcribe_audio(
         #==================================================
         # TODO: hash the file/filename to avoid collisions
         transcription_result = ""
-        unique_filename = f"uploaded_{audio_file.filename}"
+        unique_filename = f"{audio_file.filename}"
         with open(unique_filename, "wb") as f:
             f.write(audio_file.file.read())
         transcription_result = transcribe(unique_filename, source_lang, online=is_online)
@@ -201,11 +204,16 @@ async def transcribe_audio(
         raise HTTPException(status_code=e.response.status_code, detail=f"Error from remote server: {e}")
 
 
+<<<<<<< HEAD
 @app.post("/sentiment")
+async def analyze_sentiment(request_data: SentimentRequest):
+=======
+@app.post("/sentiment", tags=["/sentiment"])
 async def analyze_sentiment(request_data: Dict[str, str]):
+>>>>>>> d512d18d55dbebe73739ae9b93cd5cdae6fa6a21
     try:
         # Pull text from body
-        text = request_data.get("text", "")
+        text = request_data.text
         if not text:
             raise ValueError("Text for analysis must be provided.")
         
@@ -216,9 +224,14 @@ async def analyze_sentiment(request_data: Dict[str, str]):
         raise HTTPException(status_code=500, detail=str(e))
     
 # Endpoint for quick set up test
-@app.get("/test")
+@app.get("/test", tags=["test"])
 async def read_test():
     return {"message": "Test endpoint is working"}
+
+# Endpoint for online checking
+@app.get("/", tags=["root"])
+async def read_test():
+    return {"message": "API is online"}
 
 if __name__ == "__main__":
     import uvicorn
