@@ -17,11 +17,13 @@ public class Message
     private string message;
     private DateTime timestamp;
     private string sentimentAnalysis;
-    Message(string username, string message, DateTime timestamp, string sentimentAnalysis) {
+    private string lang;
+    public Message(string username, string message, string lang, string sentimentAnalysis) {
         this.username = username;
         this.message = message;
-        this.timestamp = timestamp;
+        this.timestamp = DateTime.Now;
         this.sentimentAnalysis = sentimentAnalysis;
+        this.lang = lang;
     }
 
     //Parses the json string into Message class

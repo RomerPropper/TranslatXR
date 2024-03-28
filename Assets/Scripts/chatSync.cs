@@ -11,75 +11,35 @@ using UnityEngine.Windows;
 public class chatSync : RealtimeComponent<chatSyncModel>
 {
 
-    public TextMeshProUGUI textMeshProChatText;
-    public NormcoreGM normcoreGM;
+    public delegate void MessageChangedEventHandler(Message newMessage);
+    public event MessageChangedEventHandler MessageChanged;
 
-    private void UpdateChatText(string newMessage) {
-        textMeshProChatText.text += newMessage;
+    //This will notify Observers of the new message
+    private void NotifyObservers(Message newMessage) {
+        MessageChanged?.Invoke(newMessage);
     }
 
     protected override void OnRealtimeModelReplaced(chatSyncModel previousModel, chatSyncModel currentModel)
     {
         if (previousModel != null) {
-            previousModel.chatTextDidChange -= ChatTextDidChange;
+            previousModel.jsonMessageDidChange -= JsonMessageDidChange;
         }
 
         if (currentModel != null) {
-            if (currentModel.isFreshModel) {
-                currentModel.chatText = textMeshProChatText.text;
-            }
+            NotifyObservers(Message.parseFromJson(currentModel.jsonMessage));
 
-            UpdateChatText(currentModel.chatText);
-
-            currentModel.chatTextDidChange += ChatTextDidChange;
+            currentModel.jsonMessageDidChange += JsonMessageDidChange;
         }
     }
 
-    private async void ChatTextDidChange(chatSyncModel model, string value) {
-        string newMessage = model.chatText.Split(";")[0];
-        string srcLang = model.chatText.Split(";")[1];
-        
-
-        string translatedNewMessage = "";
-
-        //string[] lines = model.chatText.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-        //string newLineAdded = lines.LastOrDefault();
-        //string newMessage = newLineAdded.Split(";")[0];
-        //string srcLang = newLineAdded.Split(";")[1];
-        string myLang = normcoreGM.getTargetLang();
-        
-        if (srcLang != myLang)
-        {
-            translatedNewMessage = await TranslateBeforeChange(newMessage, srcLang);
-            //lines[lines.Length - 1] = translatedNewMessage + "\n";
-            translatedNewMessage = translatedNewMessage + "\n";
-        }
-        else {
-            //lines[lines.Length - 1] = newMessage + "\n";
-            translatedNewMessage = newMessage + "\n";
-        }
-        UpdateChatText(translatedNewMessage);
+    private void JsonMessageDidChange(chatSyncModel model, string value)
+    {
+        NotifyObservers(Message.parseFromJson(model.jsonMessage));
     }
 
-    private async Task<string> TranslateBeforeChange(string newText, string srcLang) {
-        string myLang = normcoreGM.getTargetLang();
-        string translatedText =  await Translator.Translate(newText, srcLang, myLang);
-        return translatedText;
-    }
-
-
-    //This method should really not be used. Mostly here for initlization.
-    public void SetText(string message, string lang) {
-        if (message == "") {
-            textMeshProChatText.text = "";
-            return;
-        }
-        model.chatText = message + ";" + lang;
-    }
-
-    //This is the main method that will be called when we want to add text to the chatbox.
-    public void AddText(string message, string lang) {
-        model.chatText = message + ";" + lang;
+    //Use this function anytime you want to 
+    public void SendMessage(Message newMessage) {
+        model.jsonMessage = newMessage.convertToJson();
     }
 
 }
