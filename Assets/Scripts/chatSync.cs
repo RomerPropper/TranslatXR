@@ -58,9 +58,9 @@ public class chatSync : RealtimeComponent<chatSyncModel>
     }
 
     //This is the main method that will be called when we want to add text to the chatbox.
-    public void AddText(string message, string lang) {
+    public void AddText(string message, string lang, string username) {
         SetLanguage(lang);
-        model.chatText += message + "\n";
+        model.chatText += username + ": " + message + "\n";
     }
 
     public void SetLanguage(string lang) {

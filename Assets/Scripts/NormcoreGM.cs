@@ -14,6 +14,7 @@ public class NormcoreGM : MonoBehaviour
 
     public chatSync _chatSync;
     private string _targetLang;
+    private string userName;
 
 
     //PTT Variables
@@ -77,7 +78,7 @@ public class NormcoreGM : MonoBehaviour
     }
 
     public void postTranscription(string message) {
-        _chatSync.AddText(message, _targetLang);
+        _chatSync.AddText(message, _targetLang, userName);
     }
 
     public void SetLangEnglish() {
@@ -94,4 +95,9 @@ public class NormcoreGM : MonoBehaviour
     public string getTargetLang() {
         return _targetLang;
     }
+    public void SetUserName(string name){
+        Debug.Log("name set to " + name);
+        userName = name;
+    }
+    
 }

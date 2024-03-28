@@ -26,12 +26,13 @@ public class languageNameSelectButton : MonoBehaviour
         if (name == ""){
             return;
         }
-        if ( lang == "English"){
+        else if ( lang == "English"){
             normcoreGM.SetLangEnglish();
         }
         else{
             normcoreGM.SetLangChinese();
         }
+        normcoreGM.SetUserName(name);
         Debug.Log(lang);
         langselectUI.SetActive(false);
 
