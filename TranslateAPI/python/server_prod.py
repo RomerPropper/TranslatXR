@@ -89,7 +89,9 @@ async def deepl_translate(text, source_lang, target_lang):
 # EasyNMT APIs
 async def easynmt_translate(text, source_lang, target_lang):
     try:
-        if source_lang == "en-us":
+        if target_lang in ["en-us", "en-gb"]:
+            target_lang = "en"
+        if source_lang in ["en-us", "en-gb"]:
             source_lang = "en"
         async with httpx.AsyncClient() as client:
             translation_api_url = os.environ.get('EASYNMT_TRANSLATION_URL')
@@ -105,7 +107,7 @@ async def easynmt_translate(text, source_lang, target_lang):
         raise # just rethrow
 
 translate_function_dict = {
-#    'google': google_translate,``
+#    'google': google_translate,
 #    'whisper': whisper_translate,
 #    'openai': whisper_translate,
     'deepl': deepl_translate,
@@ -225,6 +227,7 @@ async def transcribe_audio(
             f.write(audio_file.file.read())
         transcription_result = await transcribe(key=key, audio_file=unique_filename, source_lang=source_lang)
 
+        # TODO: make sure this file is always deleted
         # delete the file we just created
         try:
             os.remove(unique_filename)
