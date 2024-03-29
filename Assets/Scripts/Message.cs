@@ -26,6 +26,46 @@ public class Message
         this.lang = lang;
     }
 
+	public string getUsername(){
+		return username;
+	}
+	
+	public string getMessage(){
+		return message;
+	}
+	
+	public DateTime getTimestamp(){
+		return timestamp;
+	}
+	
+	public string getSentimentAnalysis(){
+		return sentimentAnalysis;
+	}
+	
+	public string getLang(){
+		return lang;
+	}
+	
+	public void setUsername(string newUsername){
+		username = newUsername;
+	}
+	
+	public void setMessage(string newMessage){
+		message = newMessage;
+	}
+	
+	public void setTimestamp(DateTime newTimestamp){
+		timestamp = newTimestamp;
+	}
+	
+	public void setSentimentAnalysis(string newSentimentAnalysis){
+		sentimentAnalysis = newSentimentAnalysis;
+	}
+	
+	public void setLang(string newLang){
+		lang = newLang;
+	}
+
     //Parses the json string into Message class
     public static Message parseFromJson(string json) {
         return JsonConvert.DeserializeObject<Message>(json);
