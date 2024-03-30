@@ -15,5 +15,6 @@ Here is a summary of all the environment variables:
 - `OPENAI_API_KEY`: Your OpenAI API key. You can get one from [here](https://platform.openai.com/docs/quickstart).
 - `DEEPL_API_KEY`: Your DeepL API key. You can get one from [here](https://www.deepl.com/docs-api/api-access/authentication).
 - `GOOGLE_APPLICATION_CREDENTIALS`: The path to your `client_secret.json`. You can generate this file [here](https://console.cloud.google.com/).
+- `GOOGLE_PROJECT_ID`: Your Google Project ID. You can get this from your `client_secret.json` (hopefully this will automatically be extracted from `client_secret.json` later)
 - `EASYNMT_TRANSLATION_URL`: If you are hosting an EasyNMT instance, you can supply the URL here. Be sure to point the translation endpoint (e.g. https://example.com/translate).
 - `TRANSLATXR_TRUSTED_DOMAINS`: If you are hosting this over the Internet or through a reverse proxy, place the domain you intend to use here.
