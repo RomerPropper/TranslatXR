@@ -1,12 +1,11 @@
-# TODO: test Google API
-
 from fastapi import FastAPI, HTTPException, Form, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional, Annotated, Dict
 from pydantic import BaseModel
 from openai import OpenAI
 from google.cloud import speech
-from google.cloud import translate_v2 as translate
+from google.cloud import translate
+from google.cloud.translate_v3.services.translation_service.client import TranslationServiceClient
 import deepl
 from dotenv import load_dotenv
 from transformers import pipeline
@@ -40,9 +39,30 @@ def try_delete_file(unique_filename):
 # Google APIs
 # https://cloud.google.com/translate/docs/basic/translating-text
 async def google_translate(text, source_lang, target_lang):
-    translate_client = translate.Client()
-    result = translate_client.translate(values=text, format_="text", source_language=source_lang, target_language=target_lang)
-    return result["translatedText"]
+    client = TranslationServiceClient()
+
+    project_id = os.environ.get("GOOGLE_PROJECT_ID")
+
+    location = "us-central1"
+    parent = f"projects/{project_id}/locations/{location}"
+
+    # Supported language codes: https://cloud.google.com/translate/docs/languages
+    response = client.translate_text(
+        request={
+            "parent": parent,
+            "contents": [text],
+            "mime_type": "text/plain",  # mime types: text/plain, text/html
+            "source_language_code": source_lang,
+            "target_language_code": target_lang,
+        }
+    )
+
+    result = response.translations[0].translated_text
+    # Display the translation for each input text provided
+    #for translation in response.translations:
+    #    result += translation.translated_text
+
+    return result
 
 # https://cloud.google.com/speech-to-text/docs/sync-recognize#speech-sync-recognize-python
 async def google_transcribe(audio_file, source_lang):
@@ -54,8 +74,8 @@ async def google_transcribe(audio_file, source_lang):
     audio = speech.RecognitionAudio(content=content)
     config = speech.RecognitionConfig(
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
-        sample_rate_hertz=16000,
-        language_code="en-US",
+        #sample_rate_hertz=16000,
+        language_code=source_lang,
     )
 
     response = client.recognize(config=config, audio=audio)
@@ -118,7 +138,7 @@ async def easynmt_translate(text, source_lang, target_lang):
         raise # just rethrow
 
 translate_function_dict = {
-#    'google': google_translate,
+    'google': google_translate,
     'whisper': whisper_translate,
     'openai': whisper_translate,
     'deepl': deepl_translate,
@@ -126,7 +146,7 @@ translate_function_dict = {
 }
 
 transcribe_function_dict = {
-#    'google': google_transcribe,
+    'google': google_transcribe,
     'whisper': whisper_transcribe,
     'openai': whisper_transcribe
 }
