@@ -185,7 +185,8 @@ async def translate_audio(
     source_lang: Annotated[Optional[str], Form(description="Language to translate from")] = None,
     audio_file: UploadFile = File(description="Audio file to translate"),
     ):
-    unique_filename = f"{secrets.token_hex(nbytes=16)}.wav"
+    file_extension = audio_file.content_type.split("/")[1]
+    unique_filename = f"{secrets.token_hex(nbytes=16)}.{file_extension}"
     # TODO: surely we can just do this in memory...
     with open(unique_filename, "wb") as f:
         f.write(audio_file.file.read())
@@ -225,12 +226,14 @@ async def transcribe_audio(
     source_lang: Annotated[Optional[str], Form(description="Language to transcribe")] = None,
     audio_file: UploadFile = File(description="Audio file to transcribe"),
     ):
+    key = os.environ.get("CLOUD_TRANSCRIPTION_API").lower()
+    file_extension = audio_file.content_type.split("/")[1]
+    unique_filename = f"{secrets.token_hex(nbytes=16)}.{file_extension}"
+    with open(unique_filename, "wb") as f:
+        f.write(audio_file.file.read())
+
     try:
         transcription_result = ""
-        key = os.environ.get("CLOUD_TRANSCRIPTION_API").lower()
-        unique_filename = f"{secrets.token_hex(nbytes=16)}.wav"
-        with open(unique_filename, "wb") as f:
-            f.write(audio_file.file.read())
         transcription_result = await transcribe(key=key, audio_file=unique_filename, source_lang=source_lang)
 
         try_delete_file(unique_filename)
