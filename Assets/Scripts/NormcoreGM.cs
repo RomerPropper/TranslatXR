@@ -10,7 +10,6 @@ public class NormcoreGM : MonoBehaviour
     //Normcore variables
     [SerializeField]
     private string _chatText = default;
-    private string _previousChatText = default;
 
     public chatSync _chatSync;
     private string _targetLang = "en";
@@ -27,7 +26,6 @@ public class NormcoreGM : MonoBehaviour
 
     void Start()
     {
-        _chatSync.SetText("", _targetLang);
         if (!_isRecording)
         {
             statusText.text = "Not Recording";
@@ -76,7 +74,8 @@ public class NormcoreGM : MonoBehaviour
     }
 
     public void postTranscription(string message) {
-        _chatSync.AddText(message, _targetLang);
+        Message newMessage = new Message("Unknown", message, _targetLang, "Unknown");
+        _chatSync.SendMessage(newMessage);
     }
 
     public void SetLangEnglish() {
