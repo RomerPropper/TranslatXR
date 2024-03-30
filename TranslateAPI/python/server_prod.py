@@ -22,6 +22,19 @@ class TranslateTextBody(BaseModel):
     target_lang: str
     source_lang: str | None = None
 
+
+# ==================================================================================
+
+def try_delete_file(unique_filename):
+    try:
+        os.remove(unique_filename)
+        print(f"File {unique_filename} deleted successfully.")
+    except FileNotFoundError:
+        print(f"File {unique_filename} not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        raise
+
 # ==================================================================================
 
 # Google APIs
@@ -62,8 +75,7 @@ async def whisper_transcribe(audio_file, source_lang):
     transcription = client.audio.transcriptions.create(
             language=source_lang,
             model="whisper-1",
-            file=audio,
-            response_format="text"
+            file=audio
             )
     transcribed_text = transcription.text
     return transcribed_text
@@ -71,11 +83,10 @@ async def whisper_transcribe(audio_file, source_lang):
 async def whisper_translate(audio_file, source_lang, target_lang):
     client = OpenAI() # automatically loads 'OPENAI_API_KEY' from environment
     audio = open(audio_file, "rb")
-    transcription = client.audio.transcriptions.create(
+    transcription = client.audio.translations.create(
             #language=source_lang, # NOTE: this doesn't exist on the translation endpoint
             model="whisper-1",
-            file=audio,
-            response_format="text"
+            file=audio
             )
     transcribed_text = transcription.text
     return transcribed_text
@@ -108,16 +119,16 @@ async def easynmt_translate(text, source_lang, target_lang):
 
 translate_function_dict = {
 #    'google': google_translate,
-#    'whisper': whisper_translate,
-#    'openai': whisper_translate,
+    'whisper': whisper_translate,
+    'openai': whisper_translate,
     'deepl': deepl_translate,
     'easynmt': easynmt_translate
 }
 
 transcribe_function_dict = {
 #    'google': google_transcribe,
-#    'whisper': whisper_transcribe,
-#    'openai': whisper_transcribe
+    'whisper': whisper_transcribe,
+    'openai': whisper_transcribe
 }
 
 # ==================================================================================
@@ -155,14 +166,14 @@ tags_metadata = [
 
 app = FastAPI(openapi_tags=tags_metadata)
 
-# TODO: do not allow all origins; perhaps configure it from environment
-# For testing, may need to update in the future when publishing
+origins = os.getenv("TRANSLATXR_ALLOWED_ORIGINS").split(",")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["GET", "POST"],
+    #allow_headers=["*"],  # Allows all headers
 )
 
 classifier = pipeline("sentiment-analysis", model="michellejieli/emotion_text_classifier")
@@ -174,32 +185,28 @@ async def translate_audio(
     source_lang: Annotated[Optional[str], Form(description="Language to translate from")] = None,
     audio_file: UploadFile = File(description="Audio file to translate"),
     ):
+    unique_filename = f"{secrets.token_hex(nbytes=16)}.wav"
+    # TODO: surely we can just do this in memory...
+    with open(unique_filename, "wb") as f:
+        f.write(audio_file.file.read())
+
     try:
-        #==================================================
         transcription_result = ""
-        key = os.environ.get("CLOUD_TRANSCRIPTION_API")
-        unique_filename = secrets.token_hex(nbytes=16)
-        # TODO: surely we can just do this in memory...
-        with open(unique_filename, "wb") as f:
-            f.write(audio_file.file.read())
+        key = os.environ.get("CLOUD_TRANSCRIPTION_API").lower()
         transcription_result = await transcribe(key=key, audio_file=unique_filename, source_lang=source_lang)
+        
+        key = os.environ.get("CLOUD_TRANSLATION_API").lower()
+        if key in ["whisper","openai"]:
+            translation_result = await whisper_translate(audio_file=unique_filename, source_lang=source_lang, target_lang=target_lang)
+        else:
+            translation_result = await translate(key=key, text=transcription_result, source_lang=source_lang, target_lang=target_lang)
 
-        # delete the file we just created
-        try:
-            os.remove(unique_filename)
-            print(f"File {unique_filename} deleted successfully.")
-        except FileNotFoundError:
-            print(f"File {unique_filename} not found.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-        #==================================================
-
-        key = os.environ.get("CLOUD_TRANSLATION_API")
-        translation_result = await translate(key=key, text=transcription_result, source_lang=source_lang, target_lang=target_lang)
+        try_delete_file(unique_filename)
 
         return {"transcription": transcription_result, "translation": translation_result}
 
     except httpx.HTTPError as e:
+        try_delete_file(unique_filename)
         # Handle HTTP errors from remote servers
         raise HTTPException(status_code=e.response.status_code, detail=f"Error from remote server: {e}")
 
@@ -207,7 +214,7 @@ async def translate_audio(
 async def translate_text(body: TranslateTextBody):
     try:
         translation_result = ""
-        key = os.environ.get("CLOUD_TRANSLATION_API")
+        key = os.environ.get("CLOUD_TRANSLATION_API").lower()
         translation_result = await translate(key=key, text=body.text, source_lang=body.source_lang, target_lang=body.target_lang)
         return {"translation": translation_result}
     except httpx.HTTPError as e:
@@ -219,28 +226,19 @@ async def transcribe_audio(
     audio_file: UploadFile = File(description="Audio file to transcribe"),
     ):
     try:
-        #==================================================
         transcription_result = ""
-        key = os.environ.get("CLOUD_TRANSCRIPTION_API")
-        unique_filename = secrets.token_hex(nbytes=16)
+        key = os.environ.get("CLOUD_TRANSCRIPTION_API").lower()
+        unique_filename = f"{secrets.token_hex(nbytes=16)}.wav"
         with open(unique_filename, "wb") as f:
             f.write(audio_file.file.read())
         transcription_result = await transcribe(key=key, audio_file=unique_filename, source_lang=source_lang)
 
-        # TODO: make sure this file is always deleted
-        # delete the file we just created
-        try:
-            os.remove(unique_filename)
-            print(f"File {unique_filename} deleted successfully.")
-        except FileNotFoundError:
-            print(f"File {unique_filename} not found.")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-        #==================================================
+        try_delete_file(unique_filename)
 
         return {"transcription": transcription_result}
     
     except httpx.HTTPError as e:
+        try_delete_file(unique_filename)
         raise HTTPException(status_code=e.response.status_code, detail=f"Error from remote server: {e}")
 
 
