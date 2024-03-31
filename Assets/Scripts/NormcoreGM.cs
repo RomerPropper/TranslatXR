@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NormcoreGM : MonoBehaviour
 {
@@ -11,8 +12,13 @@ public class NormcoreGM : MonoBehaviour
     [SerializeField]
     private string _chatText = default;
 
+    public TMP_InputField inputField_username;
+    public TMP_InputField inputField_ln;
+
     public chatSync _chatSync;
     private string _targetLang = "en";
+
+    public ProfileClass profile = new ProfileClass();
 
 
     //PTT Variables
@@ -41,7 +47,7 @@ public class NormcoreGM : MonoBehaviour
     {
         if (OVRInput.Get(pttButton) || Input.GetKeyDown(alternatePTTButton))
         {
-            if (!_isRecording && _targetLang != null) {
+            if (!_isRecording && profile.Language != null) {
                 _isRecording = true;
                 statusText.text = "Recording...";
                 StartRecording();
@@ -49,7 +55,7 @@ public class NormcoreGM : MonoBehaviour
         }
         else if (OVRInput.GetUp(pttButton) || Input.GetKeyUp(alternatePTTButton))
         {
-            if (_isRecording && _targetLang != null) {
+            if (_isRecording && profile.Language != null) {
                 _isRecording = false;
                 statusText.text = "Not Recording";
                 StopRecording();
@@ -59,7 +65,7 @@ public class NormcoreGM : MonoBehaviour
     }
 
     private async void _Transcribe() {
-        string tanscription = await Translator.Transcribe(recordedClip, _targetLang);
+        string tanscription = await Translator.Transcribe(recordedClip, profile.Language);
         postTranscription(tanscription);
     }
 
@@ -74,7 +80,7 @@ public class NormcoreGM : MonoBehaviour
     }
 
     public void postTranscription(string message) {
-        Message newMessage = new Message("Unknown", message, _targetLang, "Unknown");
+        Message newMessage = new Message(profile.UserName, message, profile.Language, "Unknown");
         _chatSync.SendMessage(newMessage);
     }
 
@@ -92,4 +98,27 @@ public class NormcoreGM : MonoBehaviour
     public string getTargetLang() {
         return _targetLang;
     }
+
+    public void GetInputLanguage()
+    {
+        profile.Language = inputField_ln.text;
+        Debug.Log(profile.Language);
+    }
+
+    public void GetInputUserName()
+    {
+        profile.UserName = inputField_username.text;
+        Debug.Log(profile.UserName);
+    }
+
+    public void joinAnnouncement()
+    {
+        string Announcement = profile.Language + " speaker " + profile.UserName + " has joined the room!";
+        Message newMessage = new Message(profile.UserName, Announcement, profile.Language, "Unknown");
+        Debug.Log(Announcement);
+        _chatSync.SendMessage(newMessage);
+    }
+
+    public ProfileClass GetProfile() { return profile; }
+
 }
