@@ -18,6 +18,7 @@ public static class Translator
 
     public static async Task<string> Transcribe(AudioClip recordedClip, string targetLang) {
         string apiUrl = "https://translatxr.presidentialcorn.com";
+        // string apiUrl = "http://localhost:8000";
         //Temporary workaround;
         ConvertToWav(recordedClip);
         string filePath = Path.Combine(Application.persistentDataPath, "tempRecordedAudio.wav");
@@ -43,6 +44,7 @@ public static class Translator
 
     public static async Task<string> Translate(string message, string srcLang, string targetLang) {
         string apiUrl = "https://translatxr.presidentialcorn.com";
+        // string apiUrl = "http://localhost:8000";
 
         using (var client = new HttpClient())
         {  
@@ -83,6 +85,7 @@ public static class Translator
 
     public static async Task<string> Sentiment(StringContent jsonPayload) {
         string apiUrl = "https://translatxr.presidentialcorn.com";
+        // string apiUrl = "http://localhost:8000";
         
         using (var httpClient = new HttpClient())
         {
