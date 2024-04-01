@@ -204,13 +204,8 @@ async def transcribe_audio(
         raise HTTPException(status_code=e.response.status_code, detail=f"Error from remote server: {e}")
 
 
-<<<<<<< HEAD
-@app.post("/sentiment")
-async def analyze_sentiment(request_data: SentimentRequest):
-=======
 @app.post("/sentiment", tags=["/sentiment"])
 async def analyze_sentiment(request_data: Dict[str, str]):
->>>>>>> d512d18d55dbebe73739ae9b93cd5cdae6fa6a21
     try:
         # Pull text from body
         text = request_data.text
