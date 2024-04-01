@@ -1,3 +1,5 @@
+# TODO: create temporary files in a ram filesystem in case they are not deleted after use
+
 from fastapi import FastAPI, HTTPException, Form, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from typing import List, Optional, Annotated, Dict
