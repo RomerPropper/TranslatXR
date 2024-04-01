@@ -4,11 +4,12 @@ using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Normal.Realtime;
 
 public class langselectbtn : MonoBehaviour
 {
     public GameObject langselectUI;
-    //public NormcoreGM normcoreGM;
+    public NormcoreGM normcoreGM;
     public Button continueButton;
     public TMP_Dropdown langDropdown;
     public TMP_InputField nameInput;
@@ -27,14 +28,15 @@ public class langselectbtn : MonoBehaviour
             return;
         }
         else if(lang=="English"){
-            //normcoreGM.SetLangEnglish();
+            normcoreGM.SetLangEnglish();
         }
         else if(lang=="Chinese"){
-            //normCoreGM.SetLangChinese();
+            normcoreGM.SetLangChinese();
         }
         else{
             Debug.Log("no language");
         }
+        Debug.Log("name: " + name);
         Debug.Log(lang);
         langselectUI.SetActive(false);
     }
