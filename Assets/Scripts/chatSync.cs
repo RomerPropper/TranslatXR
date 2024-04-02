@@ -34,6 +34,9 @@ public class chatSync : RealtimeComponent<chatSyncModel>
 
     private void JsonMessageDidChange(chatSyncModel model, string value)
     {
+        NormcoreGM normcoreGMInstance = new NormcoreGM(); // Create an instance of NormcoreGM
+        ProfileClass profile = normcoreGMInstance.GetProfile(); // Retrieve the profile
+        profile.Messages.Add(Message.parseFromJson(model.jsonMessage));
         NotifyObservers(Message.parseFromJson(model.jsonMessage));
     }
 
