@@ -181,7 +181,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3337666135490476201}
   m_Layer: 0
-  m_Name: Test Scene Objects
+  m_Name: MRMUSKTestSceneObjects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
