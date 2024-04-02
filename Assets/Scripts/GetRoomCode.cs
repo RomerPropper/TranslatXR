@@ -17,14 +17,12 @@ public class GetRoomCode : MonoBehaviour
     public void GetInputText()
     {
         roomName = inputField.text;
-        Debug.Log("you have entered the room");
     }
 
     public void LoadRoom()
     {
         if (isLoading) return;
         isLoading = true;
-        Debug.Log("you have entered the room");
         StartCoroutine(InTheRoom());
     }
 

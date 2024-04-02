@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NormcoreGM : MonoBehaviour
 {
+    public TMP_InputField inputField_username;
+    public TMP_InputField inputField_ln;
+
+    public ProfileClass profile = new ProfileClass();
+
     [SerializeField] private string _chatText = default;
     public chatSync _chatSync;
     private string _targetLang = "en";
@@ -134,7 +140,7 @@ public class NormcoreGM : MonoBehaviour
     }
 
     public void postTranscription(string message) {
-        Message newMessage = new Message("Unknown", message, _targetLang, "Unknown");
+        Message newMessage = new Message(profile.UserName, message, profile.Language, "Unknown");
         _chatSync.SendMessage(newMessage);
     }
 
@@ -152,4 +158,27 @@ public class NormcoreGM : MonoBehaviour
     public string getTargetLang() {
         return _targetLang;
     }
+
+    public void GetInputLanguage()
+    {
+        profile.Language = inputField_ln.text;
+        Debug.Log(profile.Language);
+    }
+
+    public void GetInputUserName()
+    {
+        profile.UserName = inputField_username.text;
+        Debug.Log(profile.UserName);
+    }
+
+    public void joinAnnouncement()
+    {
+        string Announcement = profile.Language + " speaker " + profile.UserName + " has joined the room!";
+        Message newMessage = new Message(profile.UserName, Announcement, profile.Language, "Unknown");
+        Debug.Log(Announcement);
+        _chatSync.SendMessage(newMessage);
+    }
+
+    public ProfileClass GetProfile() { return profile; }
+
 }
