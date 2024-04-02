@@ -18,6 +18,7 @@ Activating the virtual environment is slightly different on Windows and Linux:
 - Linux: `. .venv/bin/activate`
 
 Install the packages from `requirements-prod.txt`: `pip install -r requirements-prod.txt`
+Install [PyTorch](https://pytorch.org/get-started/locally/)
 
 Configure the environment as instructed below. then run `uvicorn server_prod:app --host 0.0.0.0`
 
