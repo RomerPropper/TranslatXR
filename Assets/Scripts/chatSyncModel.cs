@@ -8,5 +8,5 @@ using UnityEngine;
 public partial class chatSyncModel
 {
     [RealtimeProperty(1, true, true)]
-    private string _chatText;
+    private string _jsonMessage;
 }
