@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+pydantic
+typing
+deepl
+openai
+python-dotenv
+transformers
+google-cloud-speech
+google-cloud-translate
+httpx
+numpy

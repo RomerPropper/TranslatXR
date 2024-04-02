@@ -1,0 +1,14 @@
+services:
+  api:
+    container_name: translatxr-api
+    build: ./
+    ports:
+      - "8000:80"
+    env_file:
+      - .env
+    volumes:
+      - type: tmpfs
+        target: /app/tmp
+        tmpfs:
+          size: 128M
+      - /path/to/client_secrets.json/:/app/secrets
