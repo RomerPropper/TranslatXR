@@ -33,13 +33,13 @@ If you are using a cloud VPS, configure the environment from the cloud provider'
 
 Here is a summary of all the environment variables:
 - `CLOUD_TRANSLATION_API`: The service used to for translation. You can choose between:
- - `google`: Google Translate
- - `openai` or `whisper`: OpenAI Whisper (for translating to English only)
- - `deepl`: DeepL
- - `easynmt`: EasyNMT. Note that you will need to host your own EasyNMT instance.
+   - `google`: Google Translate
+   - `openai` or `whisper`: OpenAI Whisper (for translating to English only)
+   - `deepl`: DeepL
+   - `easynmt`: EasyNMT. Note that you will need to host your own EasyNMT instance.
 - `CLOUD_TRANSCRIPTION_API`: The service used for transcription (speech-to-text). You can choose between:
- - `google`: Google Speech-to-Text
- - `openai` or `whisper`: OpenAI Whisper
+   - `google`: Google Speech-to-Text
+   - `openai` or `whisper`: OpenAI Whisper
 - `OPENAI_API_KEY`: Your OpenAI API key. You can get one from [here](https://platform.openai.com/docs/quickstart).
 - `DEEPL_API_KEY`: Your DeepL API key. You can get one from [here](https://www.deepl.com/docs-api/api-access/authentication).
 - `GOOGLE_APPLICATION_CREDENTIALS`: The path to your `client_secret.json` (or whatever you named it). You can generate this file [here](https://console.cloud.google.com/).
