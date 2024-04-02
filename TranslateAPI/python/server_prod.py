@@ -201,6 +201,7 @@ app.add_middleware(
 classifier = pipeline("sentiment-analysis", model="michellejieli/emotion_text_classifier")
 
 # TODO: prevent extraneous API calls on serives that directly support audio translation
+# TODO: mkdir and store audio files in tmpfs
 @app.post("/translate/audio", tags=["translate"])
 async def translate_audio(
     target_lang: Annotated[str, Form(description="Language to translate to")],
@@ -208,8 +209,7 @@ async def translate_audio(
     audio_file: UploadFile = File(description="Audio file to translate"),
     ):
     file_extension = audio_file.content_type.split("/")[1]
-    unique_filename = f"{secrets.token_hex(nbytes=16)}.{file_extension}"
-    # TODO: surely we can just do this in memory...
+    unique_filename = f"tmp/{secrets.token_hex(nbytes=16)}.{file_extension}"
     with open(unique_filename, "wb") as f:
         f.write(audio_file.file.read())
 
@@ -250,7 +250,7 @@ async def transcribe_audio(
     ):
     key = os.environ.get("CLOUD_TRANSCRIPTION_API").lower()
     file_extension = audio_file.content_type.split("/")[1]
-    unique_filename = f"{secrets.token_hex(nbytes=16)}.{file_extension}"
+    unique_filename = f"tmp/{secrets.token_hex(nbytes=16)}.{file_extension}"
     with open(unique_filename, "wb") as f:
         f.write(audio_file.file.read())
 
@@ -288,5 +288,10 @@ async def read_test():
 
 if __name__ == "__main__":
     import uvicorn
+
+    try:
+        os.mkdir("tmp")
+    except FileExistsError:
+        pass
 
     uvicorn.run(app, host="0.0.0.0", port=8000)
