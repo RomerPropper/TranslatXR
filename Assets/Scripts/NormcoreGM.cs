@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class NormcoreGM : MonoBehaviour
 {
     public TMP_InputField inputField_username;
-    public TMP_InputField inputField_ln;
+    public TMP_Dropdown inputField_ln;
 
     public ProfileClass profile = new ProfileClass();
 
@@ -163,7 +163,7 @@ public class NormcoreGM : MonoBehaviour
 
     public void GetInputLanguage()
     {
-        profile.Language = inputField_ln.text;
+        profile.Language = inputField_ln.options[inputField_ln.value].text;
         Debug.Log(profile.Language);
     }
 
