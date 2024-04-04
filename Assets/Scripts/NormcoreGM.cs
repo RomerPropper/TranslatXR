@@ -52,7 +52,8 @@ public class NormcoreGM : MonoBehaviour
             if (!IsSpeaking())
             {
                 timeSinceLastSpeech += Time.deltaTime;
-                Debug.Log($"Not speaking. Cooldown: {timeSinceLastSpeech}");
+                // Testing Only
+                // Debug.Log($"Not speaking. Cooldown: {timeSinceLastSpeech}");
 
                 if (timeSinceLastSpeech >= speechCooldown)
                 {
@@ -77,12 +78,13 @@ public class NormcoreGM : MonoBehaviour
         if (micPosition < 0) return false;
 
         monitoringClip.GetData(_audioSampleBuffer, micPosition);
-        
+
         foreach (var sample in _audioSampleBuffer)
         {
             maxVolume = Mathf.Max(maxVolume, Mathf.Abs(sample));
         }
-        Debug.Log($"IsSpeaking: Max Volume = {maxVolume}");
+        // TESTING ONLY
+        // Debug.Log($"IsSpeaking: Max Volume = {maxVolume}");
 
         return maxVolume > VolumeThreshold;
     }
@@ -115,7 +117,7 @@ public class NormcoreGM : MonoBehaviour
         UpdateStatusText();
 
         _isReadyForNextRecording = false; 
-        Invoke("ResetRecordingState", 1f); 
+        Invoke("ResetRecordingState", 2f); 
     }
 
     private void ResetRecordingState()
