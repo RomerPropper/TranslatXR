@@ -78,3 +78,6 @@ crashlytics-build.properties
 # Python Virtual Environment
 .venv/
 __pycache__
+
+# Temporary directory
+tmp/
