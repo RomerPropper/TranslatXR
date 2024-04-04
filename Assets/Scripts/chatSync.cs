@@ -15,7 +15,8 @@ public class chatSync : RealtimeComponent<chatSyncModel>
     public event MessageChangedEventHandler MessageChanged;
 
     //This will notify Observers of the new message
-    private void NotifyObservers(Message newMessage) {
+    private void NotifyObservers() {
+        Message newMessage = Message.parseFromJson(model.jsonMessage);
         MessageChanged?.Invoke(newMessage);
     }
 
@@ -26,18 +27,23 @@ public class chatSync : RealtimeComponent<chatSyncModel>
         }
 
         if (currentModel != null) {
-            NotifyObservers(Message.parseFromJson(currentModel.jsonMessage));
+            NotifyObservers();
 
             currentModel.jsonMessageDidChange += JsonMessageDidChange;
         }
     }
 
-    private void JsonMessageDidChange(chatSyncModel model, string value)
+    private async void JsonMessageDidChange(chatSyncModel model, string value)
     {
         NormcoreGM normcoreGMInstance = new NormcoreGM(); // Create an instance of NormcoreGM
         ProfileClass profile = normcoreGMInstance.GetProfile(); // Retrieve the profile
+
+        Message newMessage = Message.parseFromJson(model.jsonMessage);
+        newMessage.MessageContent = await Translator.Translate(newMessage.MessageContent, newMessage.Language, profile.Language); //Translate new message
+        model.jsonMessage = newMessage.convertToJson(); //Update model with translated message
+
         profile.Messages.Add(Message.parseFromJson(model.jsonMessage));
-        NotifyObservers(Message.parseFromJson(model.jsonMessage));
+        NotifyObservers();
     }
 
     //Use this function anytime you want to send a message across the network.
