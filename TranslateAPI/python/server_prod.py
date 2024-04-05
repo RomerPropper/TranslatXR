@@ -210,6 +210,12 @@ async def translate_audio(
     ):
     file_extension = audio_file.content_type.split("/")[1]
     unique_filename = f"tmp/{secrets.token_hex(nbytes=16)}.{file_extension}"
+        
+    try:
+        os.mkdir("tmp")
+    except FileExistsError:
+        pass
+        
     with open(unique_filename, "wb") as f:
         f.write(audio_file.file.read())
 
@@ -251,6 +257,12 @@ async def transcribe_audio(
     key = os.environ.get("CLOUD_TRANSCRIPTION_API").lower()
     file_extension = audio_file.content_type.split("/")[1]
     unique_filename = f"tmp/{secrets.token_hex(nbytes=16)}.{file_extension}"
+    
+    try:
+        os.mkdir("tmp")
+    except FileExistsError:
+        pass
+        
     with open(unique_filename, "wb") as f:
         f.write(audio_file.file.read())
 
@@ -288,10 +300,5 @@ async def read_test():
 
 if __name__ == "__main__":
     import uvicorn
-
-    try:
-        os.mkdir("tmp")
-    except FileExistsError:
-        pass
 
     uvicorn.run(app, host="0.0.0.0", port=8000)

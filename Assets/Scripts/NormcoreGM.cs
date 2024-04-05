@@ -163,8 +163,15 @@ public class NormcoreGM : MonoBehaviour
 
     public void GetInputLanguage()
     {
+        string lang = inputField_ln.options[inputField_ln.value].text;
         profile.Language = inputField_ln.options[inputField_ln.value].text;
         Debug.Log(profile.Language);
+        if (lang == "English"){
+            SetLangEnglish();
+        }
+        else if (lang == "Spanish"){
+            SetLangChinese();
+        }
     }
 
     public void GetInputUserName()

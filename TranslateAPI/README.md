@@ -48,4 +48,4 @@ Here is a summary of all the environment variables:
 - `GOOGLE_APPLICATION_CREDENTIALS`: The path to your `client_secret.json` (or whatever you named it). You can generate this file [here](https://console.cloud.google.com/).
 - `GOOGLE_PROJECT_ID`: Your Google Project ID. You can get this from your `client_secret.json` (hopefully this will automatically be extracted from `client_secret.json` later)
 - `EASYNMT_TRANSLATION_URL`: If you are hosting an EasyNMT instance, you can supply the URL here. Be sure to point the translation endpoint (e.g. https://example.com/translate).
-- `TRANSLATXR_TRUSTED_DOMAINS`: If you are hosting this over the Internet or through a reverse proxy, place the domain you intend to use here. Multiple domains are separated by commas.
+- `TRANSLATXR_ALLOWED_ORIGINS`: If you are hosting this over the Internet or through a reverse proxy, place the domain you intend to use here. Multiple domains are separated by commas.
