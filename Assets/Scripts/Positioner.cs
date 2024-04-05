@@ -2,37 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// TO DO: Adjust this to the position above the players head, for now it works as it does in gorillazila
-public class MenuPositioner : MonoBehaviour
+public class ChatBubblePositioner : MonoBehaviour
 {
-    public float smoothFactor = 2;
-    public Transform target;
-    public Vector3 offset = new Vector3(0,.15f, .4f);
-    public Vector3 euler = new Vector3(15, 0, 0);
+    public float smoothFactor = 4f; 
+    // Offset can be made to however we want it to look (test with other headset)
+    public Vector3 offset = new Vector3(0, 2f, -1f); 
+
+    private Transform anchorTransform;
+
     private void Start()
     {
-        target = Camera.main.transform;
-        transform.position = GetTargetPos();
-        transform.rotation = GetTargetRot();
+        // Find the headset center within the camera rig
+        anchorTransform = this.transform.parent; 
     }
-    void Update()
-    {
-        Vector3 targetPos = GetTargetPos();
-        transform.position = Vector3.Lerp(transform.position, targetPos, smoothFactor * Time.deltaTime);
 
-        Quaternion targetRot = GetTargetRot();
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, smoothFactor * Time.deltaTime);
-    }
-    Vector3 GetTargetPos()
+    private void Update()
     {
-        Vector3 targetPos = target.TransformPoint(offset);
-        Vector3 forward = Vector3.ProjectOnPlane(target.forward, Vector3.up);
-        targetPos = target.position + (forward * offset.z);
-        targetPos.y = target.position.y - offset.y;
-        return targetPos;
-    }
-    Quaternion GetTargetRot()
-    {
-        return Quaternion.Euler(euler.x, target.eulerAngles.y, euler.z);
+        if (anchorTransform == null) return; // return if no anchor
+
+        // Get the position of the chat bubble
+        Vector3 desiredPosition = anchorTransform.position + offset;
+        
+        // Smoothly move
+        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothFactor * Time.deltaTime);
+        
+        // Optionally, ensure the chat bubble always faces the camera/main viewpoint
+        transform.LookAt(Camera.main.transform);
+        transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f); // Keep the bubble upright
     }
 }
