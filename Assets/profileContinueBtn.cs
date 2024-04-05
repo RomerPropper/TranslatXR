@@ -15,6 +15,6 @@ public class profileContinueBtn : MonoBehaviour
     // Update is called once per frame
     private void OnButtonClick()
     {
-        
+        Debug.Log("clicked");
     }
 }

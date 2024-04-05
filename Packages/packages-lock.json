@@ -42,7 +42,7 @@
       "url": "https://packages.unity.com"
     },
     "com.meta.xr.sdk.core": {
-      "version": "60.0.0",
+      "version": "63.0.0",
       "depth": 2,
       "source": "registry",
       "dependencies": {},
@@ -58,7 +58,7 @@
       "url": "https://packages.unity.com"
     },
     "com.meta.xr.sdk.interaction": {
-      "version": "60.0.0",
+      "version": "63.0.0",
       "depth": 2,
       "source": "registry",
       "dependencies": {
@@ -68,12 +68,22 @@
       "url": "https://packages.unity.com"
     },
     "com.meta.xr.sdk.interaction.ovr": {
-      "version": "60.0.0",
-      "depth": 2,
+      "version": "63.0.0",
+      "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.meta.xr.sdk.core": "60.0.0",
-        "com.meta.xr.sdk.interaction": "60.0.0"
+        "com.meta.xr.sdk.core": "63.0.0",
+        "com.meta.xr.sdk.interaction": "63.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.meta.xr.sdk.interaction.ovr.samples": {
+      "version": "63.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.meta.xr.sdk.interaction.ovr": "63.0.0",
+        "com.meta.xr.sdk.sharedassets": "63.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -83,6 +93,16 @@
       "source": "registry",
       "dependencies": {
         "com.meta.xr.sdk.core": "60.0.0",
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.meta.xr.sdk.sharedassets": {
+      "version": "63.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.textmeshpro": "3.0.6",
         "com.unity.ugui": "1.0.0"
       },
       "url": "https://packages.unity.com"
@@ -384,18 +404,6 @@
       "source": "registry",
       "dependencies": {
         "com.unity.xr.management": "4.4.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.xr.openxr": {
-      "version": "1.9.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.xr.management": "4.4.0",
-        "com.unity.xr.legacyinputhelpers": "2.1.2",
-        "com.unity.inputsystem": "1.6.3",
-        "com.unity.xr.core-utils": "2.1.1"
       },
       "url": "https://packages.unity.com"
     },
