@@ -23,7 +23,7 @@ public class NormcoreGM : MonoBehaviour
     
     private float[] _audioSampleBuffer = new float[1024];
     private int _sampleRate = 44100;
-    private const float VolumeThreshold = 0.09f; 
+    private const float VolumeThreshold = 0.12f; 
 
     private AudioClip monitoringClip; 
     private float timeSinceLastSpeech = 0f;
