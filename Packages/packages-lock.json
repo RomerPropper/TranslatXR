@@ -126,6 +126,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.nobi.roundedcorners": {
+      "version": "https://github.com/FFaUniHan/Unity_UI_Rounded_Corners.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "0ae398b2cbc24ff46687389c38055a4054a0c63a"
+    },
     "com.normalvr.normcore": {
       "version": "2.9.2",
       "depth": 1,

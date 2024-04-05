@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.nobi.roundedcorners": "https://github.com/FFaUniHan/Unity_UI_Rounded_Corners.git",
     "com.solersoft.mrmusk": "https://github.com/SolerSoft/mr-musk.git?path=/Assets/Packages/com.solersoft.mrmusk",
     "com.unity.collab-proxy": "2.3.1",
     "com.unity.ide.rider": "3.0.27",
