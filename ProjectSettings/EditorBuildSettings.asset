@@ -17,13 +17,21 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/XrIntegrationTest.unity
     guid: 318fc577aa74742e7a11af45a8690579
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ArmandoTestScene.unity
     guid: 353ab7847ef9142e285733cad6b62271
+  - enabled: 0
+    path: Assets/Scenes/MasterScene.unity
+    guid: b138359d4578d354ca821bdb6f3112b0
+  - enabled: 1
+    path: Assets/Scenes/ArmandoTest.unity
+    guid: 0f8215ccfa714fa408ca77b2de99e5a6
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 836d7403a52087a4bb1d9d34e3398882,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 2701077f977375b42b666d1b4b0aa307,
       type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: d1a0c894cd57bbe4db09bdcdbaefe362,
+      type: 2}
+    xr.sdk.mock-hmd.settings: {fileID: 11400000, guid: 3c28a0f96a60f3441a2605488bd29414,
       type: 2}
