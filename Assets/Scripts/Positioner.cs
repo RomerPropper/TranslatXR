@@ -6,13 +6,13 @@ public class ChatBubblePositioner : MonoBehaviour
 {
     public float smoothFactor = 4f; 
     // Offset can be made to however we want it to look (test with other headset)
-    public Vector3 offset = new Vector3(0, 2f, -1f); 
+    public Vector3 offset = new Vector3(0, 1f, -5f); 
 
     private Transform anchorTransform;
 
     private void Start()
     {
-        // Find the headset center within the camera rig
+        // Find the headset center within the camera
         anchorTransform = this.transform.parent; 
     }
 
