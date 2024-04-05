@@ -270,8 +270,6 @@ GameObject:
   - component: {fileID: 807544618982385210}
   - component: {fileID: 4429120923598862281}
   - component: {fileID: 6523552154213623171}
-  - component: {fileID: 9178903160546627984}
-  - component: {fileID: 8072460628757350546}
   m_Layer: 0
   m_Name: TextBubble
   m_TagString: Untagged
@@ -326,41 +324,6 @@ MonoBehaviour:
   target: {fileID: 0}
   offset: {x: 0, y: 0.15, z: 0.4}
   euler: {x: 15, y: 0, z: 0}
---- !u!114 &9178903160546627984
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4016090168348026450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -363599832, guid: ebae63e7edba59945a994528ada1f7a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _realtime: {fileID: 0}
-  _sceneViewUUID: 
-  _viewUUID: 
-  _sceneViewPreventOwnershipTakeover: 0
-  _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
-  _sceneViewDestroyWhenOwnerOrLastClientLeavesMigrated: 1
-  _sceneViewDestroyWhenLastClientLeaves: 1
-  _components:
-  - componentID: 1
-    component: {fileID: 8072460628757350546}
-  _childViews: []
---- !u!114 &8072460628757350546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4016090168348026450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1c4e371928c9324db5d33c3e597ffec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5486867349064336840
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,6 +391,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1913247819490441508}
+  - component: {fileID: 5566720030743498240}
+  - component: {fileID: 6674922232138829444}
   m_Layer: 0
   m_Name: ChatBoxSizer
   m_TagString: Untagged
@@ -455,6 +420,41 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5566720030743498240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6111716404738925744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -363599832, guid: ebae63e7edba59945a994528ada1f7a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _realtime: {fileID: 0}
+  _sceneViewUUID: 
+  _viewUUID: 
+  _sceneViewPreventOwnershipTakeover: 0
+  _sceneViewDestroyWhenOwnerOrLastClientLeaves: 1
+  _sceneViewDestroyWhenOwnerOrLastClientLeavesMigrated: 1
+  _sceneViewDestroyWhenLastClientLeaves: 1
+  _components:
+  - componentID: 1
+    component: {fileID: 6674922232138829444}
+  _childViews: []
+--- !u!114 &6674922232138829444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6111716404738925744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c4e371928c9324db5d33c3e597ffec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7641187131558419750
 GameObject:
   m_ObjectHideFlags: 0
