@@ -17,8 +17,8 @@ public static class Translator
     }
 
     public static async Task<string> Transcribe(AudioClip recordedClip, string targetLang) {
-        string apiUrl = "https://translatxr.presidentialcorn.com";
-        // string apiUrl = "http://localhost:8000";
+        // string apiUrl = "https://translatxr.presidentialcorn.com";
+        string apiUrl = "http://localhost:8000";
         //Temporary workaround;
         ConvertToWav(recordedClip);
         string filePath = Path.Combine(Application.persistentDataPath, "tempRecordedAudio.wav");
@@ -43,8 +43,8 @@ public static class Translator
     }
 
     public static async Task<string> Translate(string message, string srcLang, string targetLang) {
-        string apiUrl = "https://translatxr.presidentialcorn.com";
-        // string apiUrl = "http://localhost:8000";
+        // string apiUrl = "https://translatxr.presidentialcorn.com";
+        string apiUrl = "http://localhost:8000";
 
         using (var client = new HttpClient())
         {  
@@ -84,8 +84,8 @@ public static class Translator
     }
 
     public static async Task<string> Sentiment(StringContent jsonPayload) {
-        string apiUrl = "https://translatxr.presidentialcorn.com";
-        // string apiUrl = "http://localhost:8000";
+        // string apiUrl = "https://translatxr.presidentialcorn.com";
+        string apiUrl = "http://localhost:8000";
         
         using (var httpClient = new HttpClient())
         {
@@ -131,51 +131,45 @@ public static class Translator
 
     public static void ConvertToWav(AudioClip audioClip)
     {
-
         string filePath = Path.Combine(Application.persistentDataPath, "tempRecordedAudio.wav");
-        // Create a new empty WAV file
-        FileStream fileStream = new FileStream(filePath, FileMode.Create);
-
-        // Create a binary writer
-        BinaryWriter writer = new BinaryWriter(fileStream);
-
-        // Get the audio data from the AudioClip
-        float[] samples = new float[audioClip.samples * audioClip.channels];
-        audioClip.GetData(samples, 0);
-
-        // Convert the audio data to bytes
-        Int16[] intData = new Int16[samples.Length];
-        Byte[] bytesData = new Byte[samples.Length * 2];
-        int rescaleFactor = 32767;
-
-        for (int i = 0; i < samples.Length; i++)
+        
+        using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
         {
-            intData[i] = (short)(samples[i] * rescaleFactor);
-            byte[] byteArr = new byte[2];
-            byteArr = BitConverter.GetBytes(intData[i]);
-            byteArr.CopyTo(bytesData, i * 2);
+            using (BinaryWriter writer = new BinaryWriter(fileStream))
+            {
+                float[] samples = new float[audioClip.samples * audioClip.channels];
+                audioClip.GetData(samples, 0);
+
+                Int16[] intData = new Int16[samples.Length];
+                Byte[] bytesData = new Byte[samples.Length * 2];
+                int rescaleFactor = 32767;
+
+                for (int i = 0; i < samples.Length; i++)
+                {
+                    intData[i] = (short)(samples[i] * rescaleFactor);
+                    byte[] byteArr = BitConverter.GetBytes(intData[i]);
+                    byteArr.CopyTo(bytesData, i * 2);
+                }
+
+                writer.Write(new char[4] { 'R', 'I', 'F', 'F' });
+                writer.Write((Int32)(36 + bytesData.Length));
+                writer.Write(new char[4] { 'W', 'A', 'V', 'E' });
+                writer.Write(new char[4] { 'f', 'm', 't', ' ' });
+                writer.Write((Int32)16);
+                writer.Write((Int16)1);
+                writer.Write((Int16)audioClip.channels);
+                writer.Write((Int32)audioClip.frequency);
+                writer.Write((Int32)(audioClip.frequency * audioClip.channels * 2));
+                writer.Write((Int16)(audioClip.channels * 2));
+                writer.Write((Int16)16);
+                writer.Write(new char[4] { 'd', 'a', 't', 'a' });
+                writer.Write((Int32)bytesData.Length);
+                writer.Write(bytesData);
+                writer.Close();
+            }
+            fileStream.Close();
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
         }
-
-        // Write the WAV file header
-        writer.Write(new char[4] { 'R', 'I', 'F', 'F' });
-        writer.Write((Int32)(36 + bytesData.Length));
-        writer.Write(new char[4] { 'W', 'A', 'V', 'E' });
-        writer.Write(new char[4] { 'f', 'm', 't', ' ' });
-        writer.Write((Int32)16);
-        writer.Write((Int16)1);
-        writer.Write((Int16)audioClip.channels);
-        writer.Write((Int32)audioClip.frequency);
-        writer.Write((Int32)(audioClip.frequency * audioClip.channels * 2));
-        writer.Write((Int16)(audioClip.channels * 2));
-        writer.Write((Int16)16);
-        writer.Write(new char[4] { 'd', 'a', 't', 'a' });
-        writer.Write((Int32)bytesData.Length);
-
-        // Write the audio data
-        writer.Write(bytesData);
-
-        // Close the writer and file stream
-        writer.Close();
-        fileStream.Close();
     }
 }

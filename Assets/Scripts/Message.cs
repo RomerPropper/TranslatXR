@@ -13,58 +13,21 @@ sentimentAnalysis = the analysis of the persons sentiment
 */
 public class Message
 {
-    private string username;
-    private string message;
-    private DateTime timestamp;
-    private string sentimentAnalysis;
-    private string lang;
-    public Message(string username, string message, string lang, string sentimentAnalysis) {
-        this.username = username;
-        this.message = message;
-        this.timestamp = DateTime.Now;
-        this.sentimentAnalysis = sentimentAnalysis;
-        this.lang = lang;
-    }
+    public string Username { get; set; }
+    public string MessageContent { get; set; }
+    public DateTime Timestamp { get; set; }
+    public string SentimentAnalysis { get; set; }
+    public string Language { get; set; }
 
-	public string getUsername(){
-		return username;
-	}
-	
-	public string getMessage(){
-		return message;
-	}
-	
-	public DateTime getTimestamp(){
-		return timestamp;
-	}
-	
-	public string getSentimentAnalysis(){
-		return sentimentAnalysis;
-	}
-	
-	public string getLang(){
-		return lang;
-	}
-	
-	public void setUsername(string newUsername){
-		username = newUsername;
-	}
-	
-	public void setMessage(string newMessage){
-		message = newMessage;
-	}
-	
-	public void setTimestamp(DateTime newTimestamp){
-		timestamp = newTimestamp;
-	}
-	
-	public void setSentimentAnalysis(string newSentimentAnalysis){
-		sentimentAnalysis = newSentimentAnalysis;
-	}
-	
-	public void setLang(string newLang){
-		lang = newLang;
-	}
+    public Message() { }
+
+    public Message(string username, string message, string lang, string sentimentAnalysis) {
+        this.Username = username;
+        this.MessageContent = message;
+        this.Timestamp = DateTime.Now;
+        this.SentimentAnalysis = sentimentAnalysis;
+        this.Language = lang;
+    }
 
     //Parses the json string into Message class
     public static Message parseFromJson(string json) {
