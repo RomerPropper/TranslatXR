@@ -9,11 +9,10 @@ public class NormcoreGM : MonoBehaviour
     public TMP_InputField inputField_username;
     public TMP_Dropdown inputField_ln;
 
-    public ProfileClass profile = new ProfileClass();
+    public ProfileClass profile { get; set; }
 
     [SerializeField] private string _chatText = default;
     public chatSync _chatSync;
-    private string _targetLang = "en";
 
     public TextMeshProUGUI statusText;
     public int recordLength = 5;
@@ -31,6 +30,8 @@ public class NormcoreGM : MonoBehaviour
 
     void Start()
     {
+        this.profile = new ProfileClass();
+        this.profile.Messages = new List<Message>();
         _sampleRate = AudioSettings.outputSampleRate;
         monitoringClip = Microphone.Start(null, true, 10, _sampleRate);
         while (!(Microphone.GetPosition(null) > 0)) {} 
@@ -135,49 +136,53 @@ public class NormcoreGM : MonoBehaviour
         statusText.text = _isRecording ? "Recording..." : "Not Recording";
     }
 
+    //Retrives the transcription of the audio file
     private async void _Transcribe()
     {
-        string transcription = await Translator.Transcribe(recordedClip, _targetLang);
+        string transcription = await Translator.Transcribe(recordedClip, this.profile.Language);
         postTranscription(transcription);
     }
 
+    //Sends the transcription over normcore
+    //TODO: Add sentiment analysis. Right now it is set to Unknown
     public void postTranscription(string message) {
         Message newMessage = new Message(profile.UserName, message, profile.Language, "Unknown");
+
         _chatSync.SendMessage(newMessage);
     }
 
+    //Sets the profile language to english
     public void SetLangEnglish() {
         Debug.Log("Language set to English");
-        _targetLang = "en";
+        this.profile.Language = "en";
     }
 
-    public void SetLangChinese()
+    //Sets the profile langauge to spanish
+    public void SetLangSpanish()
     {
-        Debug.Log("Language set to Chinese");
-        _targetLang = "es";
+        Debug.Log("Language set to Spanish");
+        this.profile.Language = "es";
     }
 
-    public string getTargetLang() {
-        return _targetLang;
-    }
-
+    //Gets the inputed language and sets it on the profile
     public void GetInputLanguage()
     {
         string lang = inputField_ln.options[inputField_ln.value].text;
         profile.Language = inputField_ln.options[inputField_ln.value].text;
-        Debug.Log(profile.Language);
+        Debug.Log("Language Inputed: " + profile.Language);
         if (lang == "English"){
             SetLangEnglish();
         }
         else if (lang == "Spanish"){
-            SetLangChinese();
+            SetLangSpanish();
         }
     }
 
+    //Gets the inputed username
     public void GetInputUserName()
     {
         profile.UserName = inputField_username.text;
-        Debug.Log(profile.UserName);
+        Debug.Log("Name Inputed: " + profile.UserName);
     }
 
     public void joinAnnouncement()
@@ -187,7 +192,5 @@ public class NormcoreGM : MonoBehaviour
         Debug.Log(Announcement);
         _chatSync.SendMessage(newMessage);
     }
-
-    public ProfileClass GetProfile() { return profile; }
 
 }

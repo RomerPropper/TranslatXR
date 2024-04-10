@@ -14,9 +14,15 @@ public class chatSync : RealtimeComponent<chatSyncModel>
     public delegate void MessageChangedEventHandler(Message newMessage);
     public event MessageChangedEventHandler MessageChanged;
 
+    public NormcoreGM normcoreGM;
+
+    public TextMeshProUGUI testText;
+
     //This will notify Observers of the new message
     private void NotifyObservers() {
+        Debug.Log("Recieved: " + model.jsonMessage);
         Message newMessage = Message.parseFromJson(model.jsonMessage);
+        testText.text = newMessage.MessageContent;
         MessageChanged?.Invoke(newMessage);
     }
 
@@ -35,14 +41,23 @@ public class chatSync : RealtimeComponent<chatSyncModel>
 
     private async void JsonMessageDidChange(chatSyncModel model, string value)
     {
-        NormcoreGM normcoreGMInstance = new NormcoreGM(); // Create an instance of NormcoreGM
-        ProfileClass profile = normcoreGMInstance.GetProfile(); // Retrieve the profile
-
+        Debug.Log("Message Changed: " + model.jsonMessage);
         Message newMessage = Message.parseFromJson(model.jsonMessage);
-        newMessage.MessageContent = await Translator.Translate(newMessage.MessageContent, newMessage.Language, profile.Language); //Translate new message
+        newMessage.MessageContent = await Translator.Translate(newMessage.MessageContent, newMessage.Language, this.normcoreGM.profile.Language); //Translate new message
         model.jsonMessage = newMessage.convertToJson(); //Update model with translated message
 
-        profile.Messages.Add(Message.parseFromJson(model.jsonMessage));
+        if (this.normcoreGM is null)
+        {
+            Debug.Log("NORMCORE IS NULL");
+        }
+        else if (this.normcoreGM.profile is null) {
+            Debug.Log("PROFILE IS NULL");
+        }
+        else if (this.normcoreGM.profile.Messages is null)
+        {
+            Debug.Log("MESSAGES ARE NULL");
+        }
+        //this.normcoreGM.profile.Messages.Add(Message.parseFromJson(model.jsonMessage));
         NotifyObservers();
     }
 
@@ -50,6 +65,7 @@ public class chatSync : RealtimeComponent<chatSyncModel>
     //This will update the model with the message details which will sync to all other clients.
     //This needs to be called from the game master after a transcription and sentiment analytsis has been done.
     public void SendMessage(Message newMessage) {
+        Debug.Log("Sent: " + newMessage.convertToJson());
         model.jsonMessage = newMessage.convertToJson();
     }
 

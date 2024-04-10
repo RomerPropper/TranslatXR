@@ -350,8 +350,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c4e371928c9324db5d33c3e597ffec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMeshProChatText: {fileID: 6247281089061172252}
   normcoreGM: {fileID: 0}
+  testText: {fileID: 0}
 --- !u!1 &7053148372258981572
 GameObject:
   m_ObjectHideFlags: 0
