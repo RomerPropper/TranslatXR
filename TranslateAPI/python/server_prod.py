@@ -1,4 +1,4 @@
-# TODO: create temporary files in a ram filesystem in case they are not deleted after use
+# TODO: pass through exceptions raised by remote servers
 
 from fastapi import FastAPI, HTTPException, Form, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -93,8 +93,8 @@ async def google_transcribe(audio_file, source_lang):
 # Whisper APIs
 async def whisper_transcribe(audio_file, source_lang):
     client = OpenAI() # automatically loads 'OPENAI_API_KEY' from environment
-    audio = open(audio_file, "rb")
-    transcription = client.audio.transcriptions.create(
+    with open(audio_file, "rb") as audio:
+        transcription = client.audio.transcriptions.create(
             language=source_lang,
             model="whisper-1",
             file=audio
@@ -104,8 +104,8 @@ async def whisper_transcribe(audio_file, source_lang):
 
 async def whisper_translate(audio_file, source_lang, target_lang):
     client = OpenAI() # automatically loads 'OPENAI_API_KEY' from environment
-    audio = open(audio_file, "rb")
-    transcription = client.audio.translations.create(
+    with open(audio_file, "rb") as audio:
+        transcription = client.audio.translations.create(
             #language=source_lang, # NOTE: this doesn't exist on the translation endpoint
             model="whisper-1",
             file=audio
