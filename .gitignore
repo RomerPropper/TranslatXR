@@ -79,3 +79,4 @@ crashlytics-build.properties
 # Python Virtual Environment
 .venv/
 __pycache__
+.DS_Store
