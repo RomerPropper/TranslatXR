@@ -126,6 +126,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.nobi.roundedcorners": {
+      "version": "https://github.com/FFaUniHan/Unity_UI_Rounded_Corners.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "0ae398b2cbc24ff46687389c38055a4054a0c63a"
+    },
     "com.normalvr.normcore": {
       "version": "2.9.2",
       "depth": 1,
@@ -384,18 +391,6 @@
       "source": "registry",
       "dependencies": {
         "com.unity.xr.management": "4.4.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.xr.openxr": {
-      "version": "1.9.1",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.xr.management": "4.4.0",
-        "com.unity.xr.legacyinputhelpers": "2.1.2",
-        "com.unity.inputsystem": "1.6.3",
-        "com.unity.xr.core-utils": "2.1.1"
       },
       "url": "https://packages.unity.com"
     },
