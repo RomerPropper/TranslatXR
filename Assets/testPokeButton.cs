@@ -6,6 +6,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class testPokeButton : MonoBehaviour
 {
+    public GameObject ui;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,5 +17,6 @@ public class testPokeButton : MonoBehaviour
     private void OnButtonClick()
     {
         Debug.Log("clicked");
+        ui.SetActive(false);
     }
 }
