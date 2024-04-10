@@ -30,8 +30,8 @@ public class langselectbtn : MonoBehaviour
         else if(lang=="English"){
             normcoreGM.SetLangEnglish();
         }
-        else if(lang=="Chinese"){
-            normcoreGM.SetLangChinese();
+        else if(lang=="Spanish"){
+            normcoreGM.SetLangSpanish();
         }
         else{
             Debug.Log("no language");
