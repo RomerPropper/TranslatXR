@@ -15,9 +15,9 @@ public class nameInputKeyboard : MonoBehaviour
     {
         inputField.onSelect.AddListener(OnInputFieldSelect);
         inputField.onValueChanged.AddListener(OnInputFieldValueChange);
-        virtualKeyboard.CommitText += OnCommitText;
-        virtualKeyboard.Backspace += OnBackspace;
-        virtualKeyboard.KeyboardHidden += OnKeyboardHidden;
+        virtualKeyboard.CommitTextEvent.AddListener(OnCommitText);
+        virtualKeyboard.BackspaceEvent.AddListener(OnBackspace);
+        virtualKeyboard.KeyboardHiddenEvent.AddListener(OnKeyboardHidden);
     }
 
     private void OnInputFieldValueChange(string arg0)
