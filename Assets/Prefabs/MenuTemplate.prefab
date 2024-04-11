@@ -792,7 +792,7 @@ GameObject:
   - component: {fileID: 4029546300980535163}
   - component: {fileID: 5437165272445218910}
   m_Layer: 0
-  m_Name: PokeinteractionTest
+  m_Name: MenuTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
