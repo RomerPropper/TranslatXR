@@ -2,51 +2,55 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// public class ChatBubblePositioner : MonoBehaviour
-// {
-//     public float smoothFactor = 4f; 
-//     // Offset can be made to however we want it to look (test with other headset)
-//     public Vector3 offset = new Vector3(0, 1f, -5f); 
 
-//     private Transform anchorTransform;
-
-//     private void Start()
-//     {
-//         // Find the headset center within the camera
-//         anchorTransform = this.transform.parent; 
-//     }
-
-//     private void Update()
-//     {
-//         if (anchorTransform == null) return; // return if no anchor
-
-//         // Get the position of the chat bubble
-//         Vector3 desiredPosition = anchorTransform.position + offset;
-        
-//         // Smoothly move
-//         transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothFactor * Time.deltaTime);
-        
-//         // Optionally, ensure the chat bubble always faces the camera/main viewpoint
-//         transform.LookAt(Camera.main.transform);
-//         transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f); // Keep the bubble upright
-//     }
-// }
-
-public class ChatBubble : MonoBehaviour
+public class ChatBubblePositioner : MonoBehaviour
 {
-    private Transform target;
+    public float smoothFactor = 4f;
+    public Vector3 offset = new Vector3(0, 2.5f, 0); // Adjust this offset as needed
+    private Transform targetTransform;
+
+    private void Start()
+    {
+        // Initial placement, in case you want to set the bubble active without waiting for Update/LateUpdate
+        if (targetTransform != null)
+        {
+            transform.position = GetTargetPosition();
+            transform.rotation = GetTargetRotation();
+        }
+    }
+
+    private void Update()
+    {
+        if (targetTransform != null)
+        {
+            // Interpolate towards the target position
+            Vector3 targetPosition = GetTargetPosition();
+            transform.position = Vector3.Lerp(transform.position, targetPosition, smoothFactor * Time.deltaTime);
+
+            // Interpolate towards the target rotation
+            Quaternion targetRotation = GetTargetRotation();
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, smoothFactor * Time.deltaTime);
+        }
+    }
 
     public void SetTarget(Transform newTarget)
     {
-        target = newTarget;
+        targetTransform = newTarget;
     }
 
-    void LateUpdate()
+    private Vector3 GetTargetPosition()
     {
-        if(target != null)
-        {
-            Vector3 targetPosition = target.position + Vector3.up * 0.5f;
-            transform.position = targetPosition;
-        }
+        // Compute the position directly above the target's head with the given offset
+        return targetTransform.position + targetTransform.up * offset.y + targetTransform.forward * offset.z + targetTransform.right * offset.x;
+    }
+
+    private Quaternion GetTargetRotation()
+    {
+        // Rotate the bubble to face the camera
+        Vector3 toCamera = Camera.main.transform.position - transform.position;
+        // This keeps the bubble upright and only rotates around the y-axis
+        toCamera.y = 0;
+        return Quaternion.LookRotation(toCamera);
     }
 }
+
