@@ -26,7 +26,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ArmandoTest.unity
     guid: 0f8215ccfa714fa408ca77b2de99e5a6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PokeableInteractions.unity
     guid: 45a729a54a52f424182eb7fd84ca28f6
   m_configObjects:

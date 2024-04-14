@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using OVRSimpleJSON;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -11,6 +12,16 @@ using UnityEngine;
 
 public static class Translator
 {
+    private class RequestData{
+        public string text;
+        public string source_lang;
+        public string target_lang;
+        public RequestData(string message, string srcLang, string targetLang){
+            text = message;
+            source_lang = srcLang;
+            target_lang = targetLang;
+        }
+    }
 
     public static string Transcribe(string filePath, string targetLang) {
         return "";
@@ -49,12 +60,7 @@ public static class Translator
         using (var client = new HttpClient())
         {  
             // Prepare the JSON data
-            var requestData = new
-            {
-                text = message,
-                source_lang = srcLang,
-                target_lang = targetLang
-            };
+            RequestData requestData = new RequestData(message, srcLang, targetLang);
 
             // Serialize the data to JSON
             var jsonContent = JsonConvert.SerializeObject(requestData);
@@ -86,6 +92,21 @@ public static class Translator
     public static async Task<string> Sentiment(StringContent jsonPayload) {
         // string apiUrl = "https://translatxr.presidentialcorn.com";
         string apiUrl = "http://localhost:8000";
+        string[] validSrcLangs = {"en", "en-gb", "en-us"};
+        
+        // extract original text and source language from jsonPayload
+        string content = await jsonPayload.ReadAsStringAsync();
+        RequestData requestData = JsonConvert.DeserializeObject<RequestData>(content);
+        string srcLang = requestData.source_lang;
+        string text = requestData.text;
+        string jsonContent = "";
+        
+        // if necessary, translate to English for sentiment analysis
+        if (!validSrcLangs.Contains(srcLang)){
+            requestData.text = await Translate(text, srcLang, "en");
+            jsonContent = JsonConvert.SerializeObject(requestData);
+            jsonPayload = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+        }
         
         using (var httpClient = new HttpClient())
         {
@@ -105,9 +126,13 @@ public static class Translator
         }
     }
 
-    public static async Task<string> Sentiment(string textPayload) {
+    public static async Task<string> Sentiment(string textPayload, string srcLang="en") {
         // string apiUrl = "https://translatxr.presidentialcorn.com";
         string apiUrl = "http://localhost:8000";
+        string[] validSrcLangs = {"en", "en-gb", "en-us"};
+        if (!validSrcLangs.Contains(srcLang)){
+            textPayload = await Translate(textPayload, srcLang, "en");
+        }
         
         using (var httpClient = new HttpClient()) {
             var jsonPayload = JsonConvert.SerializeObject(new { text = textPayload }); // Assuming you need to wrap the text in a JSON object

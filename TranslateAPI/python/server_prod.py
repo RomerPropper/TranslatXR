@@ -283,13 +283,16 @@ async def transcribe_audio(
 async def analyze_sentiment(request_data: Dict[str, str]):
     try:
         # Pull text from body
-        text = request_data.get("text", "")
+        # text = request_data.get("text", "")
+        text = request_data.json()["text"]
         if not text:
             raise ValueError("Text for analysis must be provided.")
         
         # Perform sentiment analysis
         result = classifier(text)
         return {"result": result}
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
