@@ -26,9 +26,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ArmandoTest.unity
     guid: 0f8215ccfa714fa408ca77b2de99e5a6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/PokeableInteractions.unity
     guid: 45a729a54a52f424182eb7fd84ca28f6
+  - enabled: 1
+    path: Assets/Scenes/KarlTest.unity
+    guid: 366ab0fcf4227ac49bf29caab822ead5
+  - enabled: 0
+    path: Assets/Samples/Meta XR Core SDK/60.0.0/Sample Scenes/VirtualKeyboard.unity
+    guid: c9684441ee1da1244a223118fdaa5d13
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 836d7403a52087a4bb1d9d34e3398882,
       type: 2}
