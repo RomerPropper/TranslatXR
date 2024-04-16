@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuPositioner : MonoBehaviour
+public class MenuPosition : MonoBehaviour
 {
     public float smoothFactor = 2;
     public Transform target;
