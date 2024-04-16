@@ -210,7 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui: {fileID: 9190108600383455030}
-  nextUi: {fileID: 8447297531654585746}
+  nextUi: {fileID: 2305668097310013456}
 --- !u!1 &259839802200133121
 GameObject:
   m_ObjectHideFlags: 0
@@ -2292,6 +2292,7 @@ RectTransform:
   - {fileID: 9173517906145869079}
   - {fileID: 3020379522869191830}
   - {fileID: 7213709949427283478}
+  - {fileID: 1565281611435221552}
   m_Father: {fileID: 3759251850400072870}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3050,7 +3051,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4211506516273299185}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1398769454322511657}
+        m_TargetAssemblyTypeName: GetRoomCode, Assembly-CSharp
+        m_MethodName: GetInputText
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3383944916289424673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4188,6 +4201,7 @@ Transform:
   m_Children:
   - {fileID: 5942315278308685987}
   - {fileID: 2798117357077358568}
+  - {fileID: 987594947013306738}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5540853997050342468
@@ -4687,7 +4701,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6069428347677564079}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5153971961450086260}
+        m_TargetAssemblyTypeName: NormcoreGM, Assembly-CSharp
+        m_MethodName: GetInputUserName
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5153971961450086260}
+        m_TargetAssemblyTypeName: NormcoreGM, Assembly-CSharp
+        m_MethodName: GetInputLanguage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3982536582826789128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4700,7 +4738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 905d1f527c1c34be3ae64964b6652153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ui: {fileID: 0}
+  ui: {fileID: 1350383660903913101}
   nextUi: {fileID: 0}
 --- !u!1 &5457417743716190062
 GameObject:
@@ -7310,6 +7348,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: -8, y: -5, z: -8, w: -5}
   m_Softness: {x: 0, y: 0}
+--- !u!1 &7518946390361001836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1565281611435221552}
+  - component: {fileID: 1398769454322511657}
+  m_Layer: 0
+  m_Name: getRoomCode
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1565281611435221552
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7518946390361001836}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2536673610859010823}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1398769454322511657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7518946390361001836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b32327fd55fe84495edd7dbf70e77e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  realtime: {fileID: 0}
+  roomName: 
+  inputField: {fileID: 1288065958564616935}
 --- !u!1 &7694129617280791279
 GameObject:
   m_ObjectHideFlags: 0
@@ -7523,6 +7612,56 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &7845472529460518515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 987594947013306738}
+  - component: {fileID: 5153971961450086260}
+  m_Layer: 0
+  m_Name: normcoreGameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &987594947013306738
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7845472529460518515}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.21225601, y: -0.13581327, z: 0.5545589}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7418217743026118659}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5153971961450086260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7845472529460518515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04b0236d0f215fc4298d3f4f59e1b0fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputField_username: {fileID: 4995561331017802693}
+  inputField_ln: {fileID: 4694699734404559131}
+  _chatText: 
+  _chatSync: {fileID: 0}
+  statusText: {fileID: 0}
+  recordLength: 5
 --- !u!1 &7902081353804489765
 GameObject:
   m_ObjectHideFlags: 0
