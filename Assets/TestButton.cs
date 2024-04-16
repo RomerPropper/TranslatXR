@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class StartGameButton : MonoBehaviour
 {
     public GameObject ui;
+    public GameObject nextUi;
     void Start()
     {
         GetComponent<Button>().onClick.AddListener(OnButtonClick);
@@ -15,7 +16,7 @@ public class StartGameButton : MonoBehaviour
 
     private void OnButtonClick()
     {
-        Debug.Log("YES");
+        nextUi.SetActive(true);
         ui.SetActive(false);
     }
 }
