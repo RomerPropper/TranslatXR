@@ -268,8 +268,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 807544618982385210}
-  - component: {fileID: 4429120923598862281}
-  - component: {fileID: 6523552154213623171}
   m_Layer: 0
   m_Name: UITextBubble
   m_TagString: Untagged
@@ -293,35 +291,6 @@ Transform:
   - {fileID: 7087337013785096119}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4429120923598862281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4016090168348026450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b7e54ddb931b34d9914d657c554fdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chatController: {fileID: 3390564839583920621}
-  menuRoot: {fileID: 0}
-  startPage: {fileID: 0}
---- !u!114 &6523552154213623171
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4016090168348026450}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc39d33283d1ce1428573879d8cc230d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  smoothFactor: 4
-  offset: {x: 0, y: 1, z: -5}
 --- !u!1 &5486867349064336840
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,6 +422,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c4e371928c9324db5d33c3e597ffec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  normcoreGM: {fileID: 0}
+  testText: {fileID: 0}
 --- !u!1 &7641187131558419750
 GameObject:
   m_ObjectHideFlags: 0
