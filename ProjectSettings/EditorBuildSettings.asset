@@ -14,9 +14,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MasonTest.unity
     guid: fda682477dadcdd488e66448516be538
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/XrIntegrationTest.unity
     guid: 318fc577aa74742e7a11af45a8690579
+  - enabled: 1
+    path: Assets/Scenes/JoseTest.unity
+    guid: 66ef24a7d23d71d47abc0e6f2c7d5ff9
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 836d7403a52087a4bb1d9d34e3398882,
       type: 2}
