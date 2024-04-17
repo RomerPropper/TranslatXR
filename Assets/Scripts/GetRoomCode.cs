@@ -14,9 +14,10 @@ public class GetRoomCode : MonoBehaviour
     private bool isLoading;
 
     public TMP_InputField inputField;
-    public void GetInputText()
+    public string GetInputText()
     {
         roomName = inputField.text;
+        return roomName;
     }
 
     public void LoadRoom()

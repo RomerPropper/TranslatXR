@@ -1632,7 +1632,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7914942052422439638
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2275,7 +2275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2536673610859010823
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2942,7 +2942,7 @@ GameObject:
   - component: {fileID: 8980845699847150617}
   - component: {fileID: 4211506516273299185}
   - component: {fileID: 109989012287708497}
-  - component: {fileID: 3383944916289424673}
+  - component: {fileID: 6732179262406013615}
   m_Layer: 0
   m_Name: ContinueBtn
   m_TagString: Untagged
@@ -3051,20 +3051,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4211506516273299185}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1398769454322511657}
-        m_TargetAssemblyTypeName: GetRoomCode, Assembly-CSharp
-        m_MethodName: GetInputText
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &3383944916289424673
+      m_Calls: []
+--- !u!114 &6732179262406013615
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3073,11 +3061,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2938434102245668969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 905d1f527c1c34be3ae64964b6652153, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b853a01f13ed49f5908b38d4908bebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ui: {fileID: 2305668097310013456}
   nextUi: {fileID: 1350383660903913101}
+  roomcodeManager: {fileID: 1398769454322511657}
 --- !u!1 &2999709572974656069
 GameObject:
   m_ObjectHideFlags: 0
