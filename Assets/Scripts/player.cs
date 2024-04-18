@@ -10,7 +10,6 @@ namespace Normal.Realtime
     public class player : RealtimeComponent<playerModel>
     {
         public const int ExecutionOrder = -90;
-        public delegate void RightHandPositionChanged(Transform rightHandTransform);
         // Local Player
         [Serializable]
         public class LocalPlayer
