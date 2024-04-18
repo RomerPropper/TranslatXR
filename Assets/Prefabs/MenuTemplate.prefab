@@ -254,6 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui: {fileID: 0}
+  nextUi: {fileID: 0}
 --- !u!1 &890451553082120469
 GameObject:
   m_ObjectHideFlags: 0
@@ -780,6 +781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ui: {fileID: 0}
+  nextUi: {fileID: 0}
 --- !u!1 &3904532386031466599
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,8 +829,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 440d014b190544df08f869fdc0f01e2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothFactor: 2
-  target: {fileID: 0}
   offset: {x: 0, y: 0.15, z: 0.4}
   euler: {x: 15, y: 0, z: 0}
 --- !u!114 &5437165272445218910
