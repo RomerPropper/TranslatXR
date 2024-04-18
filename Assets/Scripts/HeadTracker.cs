@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Normal.Realtime;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class HeadTracker : MonoBehaviour
@@ -9,8 +8,12 @@ public class HeadTracker : MonoBehaviour
     private plyerManagement playerManager;
     public GameObject objectPrefab; // Prefab for representing other players' right hands
     private Dictionary<int, GameObject> playerObjects = new Dictionary<int, GameObject>();
-    
-    public float yOffset = 0.2f;
+
+    public float yOffset = 1.0f; // Offset to place the bubble above the head
+
+    // Cache the main camera's transform for efficiency
+    [SerializeField] 
+    private Transform cameraTransform;
 
     void Start()
     {
@@ -20,6 +23,9 @@ public class HeadTracker : MonoBehaviour
             Debug.LogError("RightHandObjectController: No player manager found in scene!");
             return;
         }
+
+        // Assume the main camera is the player's camera
+        cameraTransform = Camera.main.transform;
     }
 
     void Update()
@@ -35,24 +41,23 @@ public class HeadTracker : MonoBehaviour
             if (entry.Key != localPlayerID)
             {
                 Vector3 adjustedPosition = entry.Value;
-                adjustedPosition.y += yOffset;
-
+                adjustedPosition.y += yOffset; // Apply the vertical offset
                 if (!playerObjects.ContainsKey(entry.Key))
                 {
                     // Create a new GameObject if one doesn't exist for this player
-                    GameObject newObj = Instantiate(objectPrefab, adjustedPosition, Quaternion.identity);
+                    GameObject newObj = Instantiate(objectPrefab, entry.Value, Quaternion.identity);
                     playerObjects.Add(entry.Key, newObj);
                 }
                 else
                 {
                     // Update the position of the existing GameObject
-                    playerObjects[entry.Key].transform.position = adjustedPosition;
+                    playerObjects[entry.Key].transform.position = entry.Value;
                 }
 
-                if (Camera.main != null)
+                // Make the GameObject face the camera
+                if (cameraTransform != null)
                 {
-                    playerObjects[entry.Key].transform.LookAt(Camera.main.transform);
-                    playerObjects[entry.Key].transform.Rotate(0, 180f, 0); // Rotate 180 degrees around the y-axis
+                    playerObjects[entry.Key].transform.LookAt(cameraTransform);
                 }
             }
         }

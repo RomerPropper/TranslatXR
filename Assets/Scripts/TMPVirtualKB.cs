@@ -61,12 +61,18 @@ public class TextMeshProVirtualKeyboardInputSource : MonoBehaviour
         }
     }
 
+    private void RemoveListeners()
+    {
+        inputField.onSelect.RemoveListener(OnInputFieldSelect);
+        inputField.onValueChanged.RemoveListener(OnInputFieldValueChange);
+        // inputField.onDeselect.RemoveListener(OnInputFieldDeselect);
+    }
+
     public void HideKeyboard()
     {
+        inputField.text = ""; // Clear text
+        inputField.DeactivateInputField(); // Deselect field
         virtualKeyboard.gameObject.SetActive(false);
-        inputField.DeactivateInputField();
-        virtualKeyboard.CommitTextEvent.RemoveListener(OnCommitText);
-        virtualKeyboard.BackspaceEvent.RemoveListener(OnBackspace);
-        virtualKeyboard.KeyboardHiddenEvent.RemoveListener(OnKeyboardHidden);
+        RemoveListeners();
     }
 }
