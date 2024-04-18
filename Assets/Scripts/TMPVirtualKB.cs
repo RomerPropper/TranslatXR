@@ -12,10 +12,12 @@ public class TextMeshProVirtualKeyboardInputSource : MonoBehaviour
     void Start()
     {
         inputField.onSelect.AddListener(OnInputFieldSelect);
+        // inputField.onDeselect.AddListener(OnInputFieldDeselect);
         inputField.onValueChanged.AddListener(OnInputFieldValueChange);
-        virtualKeyboard.CommitText += OnCommitText;
-        virtualKeyboard.Backspace += OnBackspace;
-        virtualKeyboard.KeyboardHidden += OnKeyboardHidden;
+
+        virtualKeyboard.CommitTextEvent.AddListener(OnCommitText);
+        virtualKeyboard.BackspaceEvent.AddListener(OnBackspace);
+        virtualKeyboard.KeyboardHiddenEvent.AddListener(OnKeyboardHidden);
     }
 
     private void OnInputFieldValueChange(string arg0)
@@ -29,46 +31,39 @@ public class TextMeshProVirtualKeyboardInputSource : MonoBehaviour
         virtualKeyboard.gameObject.SetActive(true);
     }
 
+    private void OnInputFieldDeselect(string arg0)
+    {
+        virtualKeyboard.gameObject.SetActive(false);
+    }
+
     private void OnKeyboardHidden()
     {
-        if (!inputField.isFocused)
-        {
-            return;
-        }
-        // if the user hides the keyboard
         inputField.DeactivateInputField();
     }
 
     private void OnCommitText(string arg0)
-    {
-        if (!inputField.isFocused)
-        {
-            return;
-        }
-        inputField.onValueChanged.RemoveListener(OnInputFieldValueChange);
-        if (arg0 == "\n" && !inputField.multiLine)
-        {
-            inputField.OnSubmit(null);
-        }
-        inputField.SetTextWithoutNotify(inputField.text + arg0);
+{
+    if (arg0 == "\n") {
+        virtualKeyboard.gameObject.SetActive(false);
+        inputField.DeactivateInputField();
+    } else {
         inputField.text += arg0;
         inputField.MoveTextEnd(false);
-        inputField.onValueChanged.AddListener(OnInputFieldValueChange);
-        inputField.DeactivateInputField();
     }
+}
 
     private void OnBackspace()
     {
-        if (!inputField.isFocused)
-        {
-            return;
-        }
         if (inputField.text.Length > 0)
         {
-            inputField.onValueChanged.RemoveListener(OnInputFieldValueChange);
             inputField.text = inputField.text.Substring(0, inputField.text.Length - 1);
             inputField.MoveTextEnd(false);
-            inputField.onValueChanged.AddListener(OnInputFieldValueChange);
         }
     }
+
+    public void HideKeyboard()
+{
+    virtualKeyboard.gameObject.SetActive(false);
+    inputField.DeactivateInputField();
+}
 }
