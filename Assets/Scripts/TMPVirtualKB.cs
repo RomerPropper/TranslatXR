@@ -62,8 +62,11 @@ public class TextMeshProVirtualKeyboardInputSource : MonoBehaviour
     }
 
     public void HideKeyboard()
-{
-    virtualKeyboard.gameObject.SetActive(false);
-    inputField.DeactivateInputField();
-}
+    {
+        virtualKeyboard.gameObject.SetActive(false);
+        inputField.DeactivateInputField();
+        virtualKeyboard.CommitTextEvent.RemoveListener(OnCommitText);
+        virtualKeyboard.BackspaceEvent.RemoveListener(OnBackspace);
+        virtualKeyboard.KeyboardHiddenEvent.RemoveListener(OnKeyboardHidden);
+    }
 }
