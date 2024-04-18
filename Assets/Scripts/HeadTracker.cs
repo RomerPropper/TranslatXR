@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Normal.Realtime;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class HeadTracker : MonoBehaviour
 {
@@ -12,6 +14,8 @@ public class HeadTracker : MonoBehaviour
     
     public float yOffset = 0.2f;
 
+    private NormcoreGM normcoreGM;
+
     void Start()
     {
         playerManager = FindObjectOfType<plyerManagement>();
@@ -20,6 +24,14 @@ public class HeadTracker : MonoBehaviour
             Debug.LogError("RightHandObjectController: No player manager found in scene!");
             return;
         }
+
+        this.normcoreGM = FindObjectOfType<NormcoreGM>();
+        if (playerManager == null)
+        {
+            Debug.LogError("HeadTracker: No NormcoreGM found in scene!");
+            return;
+        }
+        this.normcoreGM._chatSync.MessageChanged += this.onNewMessage; //Subscribe onNewMessage to the MessageChanged event, so it is called each time a new message is recieved.
     }
 
     void Update()
@@ -71,5 +83,22 @@ public class HeadTracker : MonoBehaviour
         {
             playerObjects.Remove(key);
         }
+    }
+
+    public void onNewMessage(Message newMessage) {
+        if (newMessage.ClientID == -1 || newMessage.ClientID == null) {
+            Debug.Log("HeadTracker (onNewMessage): Client ID does not exists!");
+            return;
+        }
+        if (!playerObjects.ContainsKey(newMessage.ClientID)) {
+            Debug.LogError("HeadTracker (onNewMessage): Client ID does not exists in playerObjects!");
+            return;
+        }
+        if (playerObjects[newMessage.ClientID].GetComponentInChildren<TextMeshProUGUI>() == null) {
+            Debug.LogError("HeadTracker (onNewMessage): Could not find TextMeshProGUI inside the UI Chat bubble!");
+            return;
+        }
+        string newMessageContent = newMessage.MessageContent + "\n";
+        playerObjects[newMessage.ClientID].GetComponentInChildren<TextMeshProUGUI>().text += newMessageContent;
     }
 }

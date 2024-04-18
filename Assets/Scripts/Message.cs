@@ -18,15 +18,17 @@ public class Message
     public DateTime Timestamp { get; set; }
     public string SentimentAnalysis { get; set; }
     public string Language { get; set; }
+    public int ClientID { get; set; }
 
     public Message() { }
 
-    public Message(string username, string message, string lang, string sentimentAnalysis) {
+    public Message(string username, string message, string lang, string sentimentAnalysis, int clientID) {
         this.Username = username;
         this.MessageContent = message;
         this.Timestamp = DateTime.Now;
         this.SentimentAnalysis = sentimentAnalysis;
         this.Language = lang;
+        this.ClientID = clientID;
     }
 
     //Parses the json string into Message class
