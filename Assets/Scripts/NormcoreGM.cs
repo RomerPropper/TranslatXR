@@ -155,7 +155,7 @@ public class NormcoreGM : MonoBehaviour
     //Sends the transcription over normcore
     //TODO: Add sentiment analysis. Right now it is set to Unknown
     public void postTranscription(string message) {
-        int localPlayerID = playerManager.localAvatar != null ? playerManager.localAvatar.realtimeView.ownerIDSelf : -1;
+        int localPlayerID = playerManager.localAvatar != null ? playerManager.localAvatar.realtimeView.ownerIDSelf : -1; //Gets the clientid of the player to add to Message class
         Message newMessage = new Message(profile.UserName, message, profile.Language, "Unknown", localPlayerID);
 
         _chatSync.SendMessage(newMessage);
@@ -197,7 +197,7 @@ public class NormcoreGM : MonoBehaviour
 
     public void joinAnnouncement()
     {
-        int localPlayerID = playerManager.localAvatar != null ? playerManager.localAvatar.realtimeView.ownerIDSelf : -1;
+        int localPlayerID = playerManager.localAvatar != null ? playerManager.localAvatar.realtimeView.ownerIDSelf : -1; //Gets the clientid of the player to add to Message class
         string Announcement = profile.Language + " speaker " + profile.UserName + " has joined the room!";
         Message newMessage = new Message(profile.UserName, Announcement, profile.Language, "Unknown", localPlayerID);
         Debug.Log(Announcement);

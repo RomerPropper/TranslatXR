@@ -85,6 +85,8 @@ public class HeadTracker : MonoBehaviour
         }
     }
 
+    //This function is called when chatSync recieves a new message.
+    //This function will update the corresponding chat bubble for the person that sent the message.
     public void onNewMessage(Message newMessage) {
         if (newMessage.ClientID == -1 || newMessage.ClientID == null) {
             Debug.Log("HeadTracker (onNewMessage): Client ID does not exists!");
