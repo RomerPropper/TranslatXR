@@ -1,4 +1,4 @@
-Library: /Users/masonzhang/Downloads/TranslatXR/Temp/BurstOutput/tempburstlibs/arm64-v8a/lib_burst_generated
+Library: /Users/armandoespinoza/Documents/GitHub/TranslatXR/Temp/BurstOutput/tempburstlibs/arm64-v8a/lib_burst_generated
 --platform=Android
 --backend=burst-llvm-16
 --target=ARMV8A_AARCH64
@@ -23,7 +23,6 @@ Library: /Users/masonzhang/Downloads/TranslatXR/Temp/BurstOutput/tempburstlibs/a
 --assembly-defines=Oculus.Interaction;
 --assembly-defines=Oculus.Interaction.OVR;
 --assembly-defines=Oculus.VR;
---assembly-defines=SolerSoft.MRMUSK;
 --assembly-defines=System.Configuration;
 --assembly-defines=System.Core;
 --assembly-defines=System.Data;
@@ -44,14 +43,21 @@ Library: /Users/masonzhang/Downloads/TranslatXR/Temp/BurstOutput/tempburstlibs/a
 --assembly-defines=Unity.TextMeshPro;
 --assembly-defines=Unity.XR.CoreUtils;
 --assembly-defines=Unity.XR.Interaction.Toolkit;
+--assembly-defines=Unity.XR.Interaction.Toolkit.Samples.DeviceSimulator;
 --assembly-defines=Unity.XR.Management;
 --assembly-defines=Unity.XR.Oculus;
+--assembly-defines=Unity.XR.OpenXR;
+--assembly-defines=Unity.XR.OpenXR.Features.ConformanceAutomation;
+--assembly-defines=Unity.XR.OpenXR.Features.MetaQuestSupport;
+--assembly-defines=Unity.XR.OpenXR.Features.MockRuntime;
+--assembly-defines=Unity.XR.OpenXR.Features.OculusQuestSupport;
+--assembly-defines=Unity.XR.OpenXR.Features.RuntimeDebugger;
 --assembly-defines=UnityEngine;
 --generate-link-xml=Temp/burst.link.xml
---temp-folder=/Users/masonzhang/Downloads/TranslatXR/Temp/Burst
+--temp-folder=/Users/armandoespinoza/Documents/GitHub/TranslatXR/Temp/Burst
 --key-folder=/Applications/Unity/Hub/Editor/2022.3.19f1/PlaybackEngines/AndroidPlayer
---decode-folder=/Users/masonzhang/Downloads/TranslatXR/Library/Burst
---output=/Users/masonzhang/Downloads/TranslatXR/Temp/BurstOutput/tempburstlibs/arm64-v8a/lib_burst_generated
+--decode-folder=/Users/armandoespinoza/Documents/GitHub/TranslatXR/Library/Burst
+--output=/Users/armandoespinoza/Documents/GitHub/TranslatXR/Temp/BurstOutput/tempburstlibs/arm64-v8a/lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=Unity.Jobs.IJobForExtensions+ForJobStruct`1[[UnityEngine.Rendering.Universal.ZBinningJob, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::Execute(UnityEngine.Rendering.Universal.ZBinningJob&, Unity.RenderPipelines.Universal.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|System.IntPtr, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089|Unity.Jobs.LowLevel.Unsafe.JobRanges&, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null|System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089)--77fc393cb521ac129b1392d4eb94d29a
@@ -79,7 +85,6 @@ Library: /Users/masonzhang/Downloads/TranslatXR/Temp/BurstOutput/tempburstlibs/a
 --assembly-defines=Oculus.Interaction;
 --assembly-defines=Oculus.Interaction.OVR;
 --assembly-defines=Oculus.VR;
---assembly-defines=SolerSoft.MRMUSK;
 --assembly-defines=System.Configuration;
 --assembly-defines=System.Core;
 --assembly-defines=System.Data;
@@ -100,14 +105,21 @@ Library: /Users/masonzhang/Downloads/TranslatXR/Temp/BurstOutput/tempburstlibs/a
 --assembly-defines=Unity.TextMeshPro;
 --assembly-defines=Unity.XR.CoreUtils;
 --assembly-defines=Unity.XR.Interaction.Toolkit;
+--assembly-defines=Unity.XR.Interaction.Toolkit.Samples.DeviceSimulator;
 --assembly-defines=Unity.XR.Management;
 --assembly-defines=Unity.XR.Oculus;
+--assembly-defines=Unity.XR.OpenXR;
+--assembly-defines=Unity.XR.OpenXR.Features.ConformanceAutomation;
+--assembly-defines=Unity.XR.OpenXR.Features.MetaQuestSupport;
+--assembly-defines=Unity.XR.OpenXR.Features.MockRuntime;
+--assembly-defines=Unity.XR.OpenXR.Features.OculusQuestSupport;
+--assembly-defines=Unity.XR.OpenXR.Features.RuntimeDebugger;
 --assembly-defines=UnityEngine;
 --generate-link-xml=Temp/burst.link.xml
---temp-folder=/Users/masonzhang/Downloads/TranslatXR/Temp/Burst
+--temp-folder=/Users/armandoespinoza/Documents/GitHub/TranslatXR/Temp/Burst
 --key-folder=/Applications/Unity/Hub/Editor/2022.3.19f1/PlaybackEngines/AndroidPlayer
---decode-folder=/Users/masonzhang/Downloads/TranslatXR/Library/Burst
---output=/Users/masonzhang/Downloads/TranslatXR/Temp/BurstOutput/tempburstlibs/arm64-v8a/lib_burst_generated
+--decode-folder=/Users/armandoespinoza/Documents/GitHub/TranslatXR/Library/Burst
+--output=/Users/armandoespinoza/Documents/GitHub/TranslatXR/Temp/BurstOutput/tempburstlibs/arm64-v8a/lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 
 --method=UnityEngine.XR.Interaction.Toolkit.Utilities.BurstMathUtility, Unity.XR.Interaction.Toolkit, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null::ProjectOnPlane(Unity.Mathematics.float3&, Unity.Mathematics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Mathematics.float3&, Unity.Mathematics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null|Unity.Mathematics.float3&, Unity.Mathematics, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null)--1819bc9925667b008fd6c3e6019ccf71
