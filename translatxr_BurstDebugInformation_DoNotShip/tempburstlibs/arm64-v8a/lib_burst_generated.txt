@@ -17,6 +17,7 @@ Library: /Users/masonzhang/Downloads/TranslatXR/Temp/BurstOutput/tempburstlibs/a
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=Newtonsoft.Json;
+--assembly-defines=Nobi.UiRoundedCorners;
 --assembly-defines=Normal.Realtime;
 --assembly-defines=Normal.Realtime.Shared;
 --assembly-defines=Oculus.Interaction;
@@ -72,6 +73,7 @@ Library: /Users/masonzhang/Downloads/TranslatXR/Temp/BurstOutput/tempburstlibs/a
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=Newtonsoft.Json;
+--assembly-defines=Nobi.UiRoundedCorners;
 --assembly-defines=Normal.Realtime;
 --assembly-defines=Normal.Realtime.Shared;
 --assembly-defines=Oculus.Interaction;

@@ -45,19 +45,20 @@ public class HeadTracker : MonoBehaviour
                 if (!playerObjects.ContainsKey(entry.Key))
                 {
                     // Create a new GameObject if one doesn't exist for this player
-                    GameObject newObj = Instantiate(objectPrefab, entry.Value, Quaternion.identity);
+                    GameObject newObj = Instantiate(objectPrefab, adjustedPosition, Quaternion.identity);
                     playerObjects.Add(entry.Key, newObj);
                 }
                 else
                 {
                     // Update the position of the existing GameObject
-                    playerObjects[entry.Key].transform.position = entry.Value;
+                    playerObjects[entry.Key].transform.position = adjustedPosition;
                 }
 
                 // Make the GameObject face the camera
                 if (cameraTransform != null)
                 {
                     playerObjects[entry.Key].transform.LookAt(cameraTransform);
+                    playerObjects[entry.Key].transform.Rotate(0, 180, 0);
                 }
             }
         }
