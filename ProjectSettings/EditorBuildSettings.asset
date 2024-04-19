@@ -29,7 +29,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/PokeableInteractions.unity
     guid: 45a729a54a52f424182eb7fd84ca28f6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/colotest.unity
     guid: 485d021f7c4554d389f4c7b792aa27ac
   - enabled: 0
@@ -38,7 +38,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Samples/Meta XR Core SDK/60.0.0/Sample Scenes/VirtualKeyboard.unity
     guid: c9684441ee1da1244a223118fdaa5d13
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/SettingsMenu.unity
     guid: 1be109564f103a242b1674ce611ba102
   m_configObjects:
