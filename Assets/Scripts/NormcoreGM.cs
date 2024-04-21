@@ -27,11 +27,19 @@ public class NormcoreGM : MonoBehaviour
     private AudioClip monitoringClip; 
     private float timeSinceLastSpeech = 0f;
     private const float speechCooldown = 3f;
+    private Dictionary<string, string> languagePairs;
 
     void Start()
     {
         this.profile = new ProfileClass();
         this.profile.Messages = new List<Message>();
+        this.languagePairs = new Dictionary<string, string>
+        {
+            { "english", "en" },
+            { "spanish", "es" },
+            { "chinese", "zh" },
+            { "japanese", "ja" }
+        };
         _sampleRate = AudioSettings.outputSampleRate;
         monitoringClip = Microphone.Start(null, true, 10, _sampleRate);
         while (!(Microphone.GetPosition(null) > 0)) {} 
@@ -168,14 +176,15 @@ public class NormcoreGM : MonoBehaviour
     public void GetInputLanguage()
     {
         string lang = inputField_ln.options[inputField_ln.value].text;
-        profile.Language = inputField_ln.options[inputField_ln.value].text;
+        this.profile.Language = inputField_ln.options[inputField_ln.value].text;
         Debug.Log("Language Inputed: " + profile.Language);
-        if (lang == "English"){
+        this.profile.Language = languagePairs[lang.ToLower()];
+        /*if (lang == "English"){
             SetLangEnglish();
         }
         else if (lang == "Spanish"){
             SetLangSpanish();
-        }
+        }*/
     }
 
     //Gets the inputed username
