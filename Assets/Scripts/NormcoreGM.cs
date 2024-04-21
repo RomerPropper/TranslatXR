@@ -158,6 +158,11 @@ public class NormcoreGM : MonoBehaviour
 
         _chatSync.SendMessage(newMessage);
     }
+    
+    public void SetLang(string language){
+        Debug.Log($"Language set to {language}");
+        this.profile.Language = languagePairs[language.ToLower()];
+    }
 
     //Sets the profile language to english
     public void SetLangEnglish() {
@@ -178,7 +183,8 @@ public class NormcoreGM : MonoBehaviour
         string lang = inputField_ln.options[inputField_ln.value].text;
         this.profile.Language = inputField_ln.options[inputField_ln.value].text;
         Debug.Log("Language Inputed: " + profile.Language);
-        this.profile.Language = languagePairs[lang.ToLower()];
+        SetLang(profile.Language);
+        // this.profile.Language = languagePairs[lang.ToLower()];
         /*if (lang == "English"){
             SetLangEnglish();
         }
