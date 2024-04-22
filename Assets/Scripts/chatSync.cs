@@ -16,13 +16,10 @@ public class chatSync : RealtimeComponent<chatSyncModel>
 
     public NormcoreGM normcoreGM;
 
-    public TextMeshProUGUI testText;
-
     //This will notify Observers of the new message
     private void NotifyObservers() {
         Debug.Log("Recieved: " + model.jsonMessage);
         Message newMessage = Message.parseFromJson(model.jsonMessage);
-        testText.text = newMessage.MessageContent;
         MessageChanged?.Invoke(newMessage);
     }
 
@@ -33,31 +30,37 @@ public class chatSync : RealtimeComponent<chatSyncModel>
         }
 
         if (currentModel != null) {
-            NotifyObservers();
-
             currentModel.jsonMessageDidChange += JsonMessageDidChange;
         }
     }
 
     private async void JsonMessageDidChange(chatSyncModel model, string value)
     {
-        Debug.Log("Message Changed: " + model.jsonMessage);
-        Message newMessage = Message.parseFromJson(model.jsonMessage);
-        newMessage.MessageContent = await Translator.Translate(newMessage.MessageContent, newMessage.Language, this.normcoreGM.profile.Language); //Translate new message
-        model.jsonMessage = newMessage.convertToJson(); //Update model with translated message
+        //Error checking
+        if (this.normcoreGM is null) {
+            Debug.LogError("chatSync [JsonMessageDidChange]: normcoreGM is not set to a reference.");
+        }
+        if (this.normcoreGM.playerManager is null)
+        {
+            Debug.LogError("chatSync [JsonMessageDidChange]: normcoreGM.playerManager is not set to a reference.");
+        }
+        //If our language is not set, then we must not be past the profile screen and we will not react to any messages
+        if (this.normcoreGM.profile.Language == null || this.normcoreGM.profile.Language == "") {
+            return;
+        }
 
-        if (this.normcoreGM is null)
-        {
-            Debug.Log("NORMCORE IS NULL");
+        Message newMessage = Message.parseFromJson(model.jsonMessage);
+
+        //Ignore message if we are the sender, the message is blank or null, or if the clientid is does not exists
+        if (newMessage.ClientID == this.normcoreGM.playerManager.localAvatar.realtimeView.ownerIDSelf || newMessage.MessageContent == "" || newMessage.MessageContent == null || newMessage.ClientID == -1 || newMessage.ClientID == null) {
+            return;
         }
-        else if (this.normcoreGM.profile is null) {
-            Debug.Log("PROFILE IS NULL");
+        Debug.Log("Message Changed: " + model.jsonMessage);
+        //Translate only if their language is different from ours
+        if (newMessage.Language.ToLower() != this.normcoreGM.profile.Language.ToLower()) {
+            newMessage.MessageContent = await Translator.Translate(newMessage.MessageContent, newMessage.Language, this.normcoreGM.profile.Language); //Translate new message
         }
-        else if (this.normcoreGM.profile.Messages is null)
-        {
-            Debug.Log("MESSAGES ARE NULL");
-        }
-        //this.normcoreGM.profile.Messages.Add(Message.parseFromJson(model.jsonMessage));
+        model.jsonMessage = newMessage.convertToJson(); //Update model with translated message
         NotifyObservers();
     }
 

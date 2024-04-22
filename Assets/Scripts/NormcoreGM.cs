@@ -1,3 +1,4 @@
+using Normal.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -27,6 +28,8 @@ public class NormcoreGM : MonoBehaviour
     private AudioClip monitoringClip; 
     private float timeSinceLastSpeech = 0f;
     private const float speechCooldown = 3f;
+
+    public plyerManagement playerManager;
 
     void Start()
     {
@@ -146,8 +149,8 @@ public class NormcoreGM : MonoBehaviour
     //Sends the transcription over normcore
     //TODO: Add sentiment analysis. Right now it is set to Unknown
     public void postTranscription(string message) {
-        Message newMessage = new Message(profile.UserName, message, profile.Language, "Unknown");
-
+        int localPlayerID = playerManager.localAvatar != null ? playerManager.localAvatar.realtimeView.ownerIDSelf : -1;
+        Message newMessage = new Message(profile.UserName, message, profile.Language, "Unknown", localPlayerID);
         _chatSync.SendMessage(newMessage);
     }
 
@@ -187,8 +190,9 @@ public class NormcoreGM : MonoBehaviour
 
     public void joinAnnouncement()
     {
+        int localPlayerID = playerManager.localAvatar != null ? playerManager.localAvatar.realtimeView.ownerIDSelf : -1;
         string Announcement = profile.Language + " speaker " + profile.UserName + " has joined the room!";
-        Message newMessage = new Message(profile.UserName, Announcement, profile.Language, "Unknown");
+        Message newMessage = new Message(profile.UserName, Announcement, profile.Language, "Unknown", localPlayerID);
         Debug.Log(Announcement);
         _chatSync.SendMessage(newMessage);
     }
