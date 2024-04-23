@@ -28,6 +28,7 @@ public class NormcoreGM : MonoBehaviour
     private AudioClip monitoringClip; 
     private float timeSinceLastSpeech = 0f;
     private const float speechCooldown = 3f;
+    private Dictionary<string, string> languagePairs;
 
     public plyerManagement playerManager;
 
@@ -35,6 +36,13 @@ public class NormcoreGM : MonoBehaviour
     {
         this.profile = new ProfileClass();
         this.profile.Messages = new List<Message>();
+        this.languagePairs = new Dictionary<string, string>
+        {
+            { "english", "en" },
+            { "spanish", "es" },
+            { "中文", "zh" },
+            { "日本語", "ja" }
+        };
         _sampleRate = AudioSettings.outputSampleRate;
         monitoringClip = Microphone.Start(null, true, 10, _sampleRate);
         while (!(Microphone.GetPosition(null) > 0)) {} 
@@ -153,6 +161,11 @@ public class NormcoreGM : MonoBehaviour
         Message newMessage = new Message(profile.UserName, message, profile.Language, "Unknown", localPlayerID);
         _chatSync.SendMessage(newMessage);
     }
+    
+    public void SetLang(string language){
+        Debug.Log($"Language set to {language}");
+        this.profile.Language = languagePairs[language.ToLower()];
+    }
 
     //Sets the profile language to english
     public void SetLangEnglish() {
@@ -171,14 +184,16 @@ public class NormcoreGM : MonoBehaviour
     public void GetInputLanguage()
     {
         string lang = inputField_ln.options[inputField_ln.value].text;
-        profile.Language = inputField_ln.options[inputField_ln.value].text;
+        this.profile.Language = inputField_ln.options[inputField_ln.value].text;
         Debug.Log("Language Inputed: " + profile.Language);
-        if (lang == "English"){
+        SetLang(profile.Language);
+        // this.profile.Language = languagePairs[lang.ToLower()];
+        /*if (lang == "English"){
             SetLangEnglish();
         }
         else if (lang == "Spanish"){
             SetLangSpanish();
-        }
+        }*/
     }
 
     //Gets the inputed username
