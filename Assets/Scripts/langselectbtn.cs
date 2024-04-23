@@ -27,12 +27,17 @@ public class langselectbtn : MonoBehaviour
             Debug.Log("enter a name");
             return;
         }
+        else if(lang != ""){
+            normcoreGM.SetLang(lang);
+        }
+        /*
         else if(lang=="English"){
             normcoreGM.SetLangEnglish();
         }
         else if(lang=="Spanish"){
             normcoreGM.SetLangSpanish();
         }
+        */
         else{
             Debug.Log("no language");
         }
