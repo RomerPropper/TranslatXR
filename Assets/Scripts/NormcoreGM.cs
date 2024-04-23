@@ -1,3 +1,5 @@
+using Normal.Realtime;
+using SolerSoft.MRMUSK.Input;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -29,6 +31,24 @@ public class NormcoreGM : MonoBehaviour
     private const float speechCooldown = 3f;
     private Dictionary<string, string> languagePairs;
 
+    public plyerManagement playerManager;
+
+    [SerializeField]
+    [Tooltip("The controller that should be used for controller-based recording. This must be assigned.")]
+    private OVRControllerHelper _controller;
+
+    [SerializeField]
+    [Tooltip("The buttons that should be held down to record.")]
+    private OVRInput.Button _recordButtons = OVRInput.Button.PrimaryIndexTrigger;
+	
+	[SerializeField]
+    private Realtime _realtime;
+	private bool _isConnected;
+
+	private void Awake(){
+		_realtime.didConnectToRoom += didConnectToRoom;
+	}
+
     void Start()
     {
         this.profile = new ProfileClass();
@@ -36,7 +56,7 @@ public class NormcoreGM : MonoBehaviour
         this.languagePairs = new Dictionary<string, string>
         {
             { "english", "en" },
-            { "spanish", "es" },
+            { "español", "es" },
             { "中文", "zh" },
             { "日本語", "ja" }
         };
@@ -48,7 +68,14 @@ public class NormcoreGM : MonoBehaviour
 
     void Update()
     {
-        if (!_isRecording && _isReadyForNextRecording)
+		
+		if (OVRInputHelper.GetAll(_controller.m_controller, _recordButtons) && !_isRecording && _isConnected && this.profile.Language != null)
+        {
+            StartCoroutine(StartRecordingCoroutine());
+        }
+		
+
+        /* if (!_isRecording && _isReadyForNextRecording)
         {
             if (IsSpeaking())
             {
@@ -75,9 +102,11 @@ public class NormcoreGM : MonoBehaviour
             {
                 timeSinceLastSpeech = 0f;
             }
-        }
+        } */
     }
 
+
+	
 
     private bool IsSpeaking()
     {
@@ -104,7 +133,25 @@ public class NormcoreGM : MonoBehaviour
         _isReadyForNextRecording = true;
     }
 
-    private void StartRecording()
+	private IEnumerator StartRecordingCoroutine()
+    {
+        if (_isRecording) yield break;
+        Debug.Log("Recording...");
+        _isRecording = true;
+        string microphoeName = Microphone.devices[0];
+        recordedClip = Microphone.Start(microphoeName, false, recordLength, _sampleRate);
+        yield return new WaitForSeconds(recordLength);
+        StopRecording();
+    }
+    private void StopRecording()
+    {
+        _isRecording = false;
+        Debug.Log("Not Recording...");
+        Microphone.End(null);
+        this._Transcribe();
+    }
+
+    /* private void StartRecording()
     {
         if (_isRecording) return;
 
@@ -127,7 +174,7 @@ public class NormcoreGM : MonoBehaviour
 
         _isReadyForNextRecording = false; 
         Invoke("ResetRecordingState", 2f); 
-    }
+    } */
 
     private void ResetRecordingState()
     {
@@ -154,8 +201,8 @@ public class NormcoreGM : MonoBehaviour
     //Sends the transcription over normcore
     //TODO: Add sentiment analysis. Right now it is set to Unknown
     public void postTranscription(string message) {
-        Message newMessage = new Message(profile.UserName, message, profile.Language, "Unknown");
-
+        int localPlayerID = playerManager.localAvatar != null ? playerManager.localAvatar.realtimeView.ownerIDSelf : -1;
+        Message newMessage = new Message(profile.UserName, message, profile.Language, "Unknown", localPlayerID);
         _chatSync.SendMessage(newMessage);
     }
     
@@ -202,10 +249,17 @@ public class NormcoreGM : MonoBehaviour
 
     public void joinAnnouncement()
     {
+        int localPlayerID = playerManager.localAvatar != null ? playerManager.localAvatar.realtimeView.ownerIDSelf : -1;
         string Announcement = profile.Language + " speaker " + profile.UserName + " has joined the room!";
-        Message newMessage = new Message(profile.UserName, Announcement, profile.Language, "Unknown");
+        Message newMessage = new Message(profile.UserName, Announcement, profile.Language, "Unknown", localPlayerID);
         Debug.Log(Announcement);
         _chatSync.SendMessage(newMessage);
+    }
+	
+	//This function is called when the user connectes to the room
+	//Is used so that we are not recording the voice before they join the room.
+	private void didConnectToRoom(Realtime room) {
+        this._isConnected = true;
     }
 
 }
