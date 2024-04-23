@@ -17,9 +17,9 @@ public class chatSync : RealtimeComponent<chatSyncModel>
     public NormcoreGM normcoreGM;
 
     //This will notify Observers of the new message
-    private void NotifyObservers() {
-        Debug.Log("Recieved: " + model.jsonMessage);
-        Message newMessage = Message.parseFromJson(model.jsonMessage);
+    private void NotifyObservers(Message newMessage) {
+        Debug.Log("Recieved: " + newMessage.convertToJson());
+        //Message newMessage = Message.parseFromJson(model.jsonMessage);
         MessageChanged?.Invoke(newMessage);
     }
 
@@ -53,6 +53,7 @@ public class chatSync : RealtimeComponent<chatSyncModel>
 
         //Ignore message if we are the sender, the message is blank or null, or if the clientid is does not exists
         if (newMessage.ClientID == this.normcoreGM.playerManager.localAvatar.realtimeView.ownerIDSelf || newMessage.MessageContent == "" || newMessage.MessageContent == null || newMessage.ClientID == -1 || newMessage.ClientID == null) {
+            Debug.Log("Ignoring...");
             return;
         }
         Debug.Log("Message Changed: " + model.jsonMessage);
@@ -60,8 +61,8 @@ public class chatSync : RealtimeComponent<chatSyncModel>
         if (newMessage.Language.ToLower() != this.normcoreGM.profile.Language.ToLower()) {
             newMessage.MessageContent = await Translator.Translate(newMessage.MessageContent, newMessage.Language, this.normcoreGM.profile.Language); //Translate new message
         }
-        model.jsonMessage = newMessage.convertToJson(); //Update model with translated message
-        NotifyObservers();
+        //model.jsonMessage = newMessage.convertToJson(); //Update model with translated message
+        NotifyObservers(newMessage);
     }
 
     //Use this function anytime you want to send a message across the network.
