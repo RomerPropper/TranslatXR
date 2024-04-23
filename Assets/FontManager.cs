@@ -8,16 +8,20 @@ using UnityEngine.UI;
 public class FontManager : MonoBehaviour
 {
     public TextMeshProUGUI tmp_font;
+    public int fontSize;
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Button>().onClick.AddListener(OnButtonClick);
-        tmp_font.fontSize = 50;
-        
+       // GetComponent<Button>().onClick.AddListener(OnButtonClick);
+        tmp_font.fontSize = fontSize;
     }
 
-    private void OnButtonClick()
+    public void FontUp()
     {
-        tmp_font.fontSize += 1;
+        tmp_font.fontSize += 2;
+    }
+    public void FontDown()
+    {
+        tmp_font.fontSize -= 2;
     }
 }
