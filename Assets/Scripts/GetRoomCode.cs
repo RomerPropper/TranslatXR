@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Normal.Realtime;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 
@@ -25,6 +26,14 @@ public class GetRoomCode : MonoBehaviour
         isLoading = true;
         StartCoroutine(InTheRoom());
     }
+
+    public void LeaveRoom()
+    {
+        realtime.Disconnect();
+        SceneManager.LoadScene("colotest");
+    }
+
+
 
     IEnumerator InTheRoom()
     {
