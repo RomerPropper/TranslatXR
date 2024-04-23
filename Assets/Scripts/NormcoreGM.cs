@@ -1,4 +1,5 @@
 using Normal.Realtime;
+using SolerSoft.MRMUSK.Input;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -31,6 +32,22 @@ public class NormcoreGM : MonoBehaviour
 
     public plyerManagement playerManager;
 
+    [SerializeField]
+    [Tooltip("The controller that should be used for controller-based recording. This must be assigned.")]
+    private OVRControllerHelper _controller;
+
+    [SerializeField]
+    [Tooltip("The buttons that should be held down to record.")]
+    private OVRInput.Button _recordButtons = OVRInput.Button.PrimaryIndexTrigger;
+	
+	[SerializeField]
+    private Realtime _realtime;
+	private bool _isConnected;
+
+	private void Awake(){
+		_realtime.didConnectToRoom += didConnectToRoom;
+	}
+
     void Start()
     {
         this.profile = new ProfileClass();
@@ -43,7 +60,14 @@ public class NormcoreGM : MonoBehaviour
 
     void Update()
     {
-        if (!_isRecording && _isReadyForNextRecording)
+		
+		if (OVRInputHelper.GetAll(_controller.m_controller, _recordButtons) && !_isRecording && _isConnected && this.profile.Language != null)
+        {
+            StartCoroutine(StartRecordingCoroutine());
+        }
+		
+
+        /* if (!_isRecording && _isReadyForNextRecording)
         {
             if (IsSpeaking())
             {
@@ -70,9 +94,11 @@ public class NormcoreGM : MonoBehaviour
             {
                 timeSinceLastSpeech = 0f;
             }
-        }
+        } */
     }
 
+
+	
 
     private bool IsSpeaking()
     {
@@ -99,7 +125,25 @@ public class NormcoreGM : MonoBehaviour
         _isReadyForNextRecording = true;
     }
 
-    private void StartRecording()
+	private IEnumerator StartRecordingCoroutine()
+    {
+        if (_isRecording) yield break;
+        Debug.Log("Recording...");
+        _isRecording = true;
+        string microphoeName = Microphone.devices[0];
+        recordedClip = Microphone.Start(microphoeName, false, recordLength, _sampleRate);
+        yield return new WaitForSeconds(recordLength);
+        StopRecording();
+    }
+    private void StopRecording()
+    {
+        _isRecording = false;
+        Debug.Log("Not Recording...");
+        Microphone.End(null);
+        this._Transcribe();
+    }
+
+    /* private void StartRecording()
     {
         if (_isRecording) return;
 
@@ -122,7 +166,7 @@ public class NormcoreGM : MonoBehaviour
 
         _isReadyForNextRecording = false; 
         Invoke("ResetRecordingState", 2f); 
-    }
+    } */
 
     private void ResetRecordingState()
     {
@@ -195,6 +239,12 @@ public class NormcoreGM : MonoBehaviour
         Message newMessage = new Message(profile.UserName, Announcement, profile.Language, "Unknown", localPlayerID);
         Debug.Log(Announcement);
         _chatSync.SendMessage(newMessage);
+    }
+	
+	//This function is called when the user connectes to the room
+	//Is used so that we are not recording the voice before they join the room.
+	private void didConnectToRoom(Realtime room) {
+        this._isConnected = true;
     }
 
 }
