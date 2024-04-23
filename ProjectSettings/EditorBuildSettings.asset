@@ -29,7 +29,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/PokeableInteractions.unity
     guid: 45a729a54a52f424182eb7fd84ca28f6
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/colotest.unity
     guid: 485d021f7c4554d389f4c7b792aa27ac
   - enabled: 0
@@ -41,6 +41,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SettingsMenu.unity
     guid: 1be109564f103a242b1674ce611ba102
+  - enabled: 1
+    path: Assets/Scenes/CornellTestScene.unity
+    guid: 2cc9e73c368ceb522b82a30feea1e7f2
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 836d7403a52087a4bb1d9d34e3398882,
       type: 2}
