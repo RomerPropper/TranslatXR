@@ -37,8 +37,8 @@ public class NormcoreGM : MonoBehaviour
         {
             { "english", "en" },
             { "spanish", "es" },
-            { "chinese", "zh" },
-            { "japanese", "ja" }
+            { "中文", "zh" },
+            { "日本語", "ja" }
         };
         _sampleRate = AudioSettings.outputSampleRate;
         monitoringClip = Microphone.Start(null, true, 10, _sampleRate);
