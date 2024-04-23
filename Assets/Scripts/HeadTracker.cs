@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Normal.Realtime;
+using TMPro;
 using UnityEngine;
 
 public class HeadTracker : MonoBehaviour
@@ -15,8 +16,14 @@ public class HeadTracker : MonoBehaviour
     [SerializeField] 
     private Transform cameraTransform;
 
+    public NormcoreGM normcoreGM;
+
     void Start()
     {
+        if (normcoreGM is null) {
+            Debug.LogError("HeadTracker [Start]: normcoreGM is not set to a reference! ChatSync will not work!");
+        }
+        this.normcoreGM._chatSync.MessageChanged += this.onNewMessage;
         playerManager = FindObjectOfType<plyerManagement>();
         if (playerManager == null)
         {
@@ -77,5 +84,25 @@ public class HeadTracker : MonoBehaviour
         {
             playerObjects.Remove(key);
         }
+    }
+
+    //This function is called anytime a new message arrives
+    public void onNewMessage(Message newMessage)
+    {
+        //Check if ClientID exists inside playerObjects
+        if (!playerObjects.ContainsKey(newMessage.ClientID))
+        {
+            Debug.LogError("HeadTracker[onNewMessage]: Client ID does not exists inside playerObjects!");
+            return;
+        }
+
+        //Check if UI Chatbox has TextMeshPro on it we can use
+        if (playerObjects[newMessage.ClientID].GetComponentInChildren<TextMeshProUGUI>() == null)
+        {
+            Debug.LogError("HeadTracker[onNewMessage]: Could not locate textmesh pro on chatbox ui");
+            return;
+        }
+        string newMessageContent = newMessage.MessageContent;
+        playerObjects[newMessage.ClientID].GetComponentInChildren<TextMeshProUGUI>().text = newMessage.Username + ": " + newMessageContent;
     }
 }
