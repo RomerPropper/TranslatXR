@@ -1,0 +1,44 @@
+Note: this is a sample file and may not accurately reflect member contributions
+
+==========
+TranslatXR
+==========
+
+---------
+Team Lead
+---------
+Romer
+
+---------
+UI/UX
+---------
+Jahred
+Karl
+Dawson
+Romer
+Armando
+Cornell
+
+---------
+API
+---------
+Cornell
+Armando
+Jose
+
+---------
+Client-side Networking
+---------
+Dawson
+Mason
+
+=========
+Mix Reality Multi-User Starter Kit (mr-musk)
+=========
+
+---------
+Developer
+---------
+
+Jared Bienz
+Faysal

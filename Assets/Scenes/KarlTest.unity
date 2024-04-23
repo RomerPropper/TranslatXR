@@ -2525,12 +2525,17 @@ PrefabInstance:
     - target: {fileID: 2262268246491494314, guid: 8de30e3b8556226458d80f0918621457,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 195.05
       objectReference: {fileID: 0}
     - target: {fileID: 4016090168348026450, guid: 8de30e3b8556226458d80f0918621457,
         type: 3}
       propertyPath: m_Name
       value: UITextBubble
+      objectReference: {fileID: 0}
+    - target: {fileID: 4016090168348026450, guid: 8de30e3b8556226458d80f0918621457,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5566720030743498240, guid: 8de30e3b8556226458d80f0918621457,
         type: 3}
@@ -2540,32 +2545,32 @@ PrefabInstance:
     - target: {fileID: 5732364393163209764, guid: 8de30e3b8556226458d80f0918621457,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5732364393163209764, guid: 8de30e3b8556226458d80f0918621457,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5732364393163209764, guid: 8de30e3b8556226458d80f0918621457,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 557.8
       objectReference: {fileID: 0}
     - target: {fileID: 5732364393163209764, guid: 8de30e3b8556226458d80f0918621457,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 195.05
       objectReference: {fileID: 0}
     - target: {fileID: 5732364393163209764, guid: 8de30e3b8556226458d80f0918621457,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 278.9
       objectReference: {fileID: 0}
     - target: {fileID: 5732364393163209764, guid: 8de30e3b8556226458d80f0918621457,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -97.525
       objectReference: {fileID: 0}
     - target: {fileID: 8839107785985331563, guid: 8de30e3b8556226458d80f0918621457,
         type: 3}
@@ -4210,6 +4215,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3104557514413907408, guid: 775f3e0687ededb4594ba6a36df27a93,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3482020547484221366, guid: 775f3e0687ededb4594ba6a36df27a93,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -4220,10 +4230,20 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4050610390030203713, guid: 775f3e0687ededb4594ba6a36df27a93,
+        type: 3}
+      propertyPath: _size.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4527707681999636196, guid: 775f3e0687ededb4594ba6a36df27a93,
         type: 3}
       propertyPath: m_Name
       value: UIFull
+      objectReference: {fileID: 0}
+    - target: {fileID: 5320020541104226569, guid: 775f3e0687ededb4594ba6a36df27a93,
+        type: 3}
+      propertyPath: m_CullTransparentMesh
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5394621542435103528, guid: 775f3e0687ededb4594ba6a36df27a93,
         type: 3}
@@ -4280,6 +4300,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6069675188055842906, guid: 775f3e0687ededb4594ba6a36df27a93,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6278426449537462919, guid: 775f3e0687ededb4594ba6a36df27a93,
         type: 3}
       propertyPath: m_Material
@@ -4308,6 +4333,11 @@ PrefabInstance:
     - target: {fileID: 6505117895064471906, guid: 775f3e0687ededb4594ba6a36df27a93,
         type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6662682148140052793, guid: 775f3e0687ededb4594ba6a36df27a93,
+        type: 3}
+      propertyPath: _doubleSided
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6997579179061305098, guid: 775f3e0687ededb4594ba6a36df27a93,
