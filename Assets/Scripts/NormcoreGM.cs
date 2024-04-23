@@ -56,7 +56,7 @@ public class NormcoreGM : MonoBehaviour
         this.languagePairs = new Dictionary<string, string>
         {
             { "english", "en" },
-            { "spanish", "es" },
+            { "español", "es" },
             { "中文", "zh" },
             { "日本語", "ja" }
         };

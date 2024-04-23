@@ -103,6 +103,6 @@ public class HeadTracker : MonoBehaviour
             return;
         }
         string newMessageContent = newMessage.MessageContent;
-        playerObjects[newMessage.ClientID].GetComponentInChildren<TextMeshProUGUI>().text = newMessageContent;
+        playerObjects[newMessage.ClientID].GetComponentInChildren<TextMeshProUGUI>().text = newMessage.Username + ": " + newMessageContent;
     }
 }
