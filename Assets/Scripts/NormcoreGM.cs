@@ -17,7 +17,11 @@ public class NormcoreGM : MonoBehaviour
     public chatSync _chatSync;
 
     public TextMeshProUGUI statusText;
-    public int recordLength = 5;
+
+    [SerializeField]
+    private TextMeshProUGUI _statusTextUGUI;
+
+    public int recordLength = 10;
     private bool _isRecording = false;
     private bool _isReadyForNextRecording = true;
     private AudioClip recordedClip;
@@ -140,6 +144,7 @@ public class NormcoreGM : MonoBehaviour
         _isRecording = true;
         string microphoeName = Microphone.devices[0];
         recordedClip = Microphone.Start(microphoeName, false, recordLength, _sampleRate);
+        UpdateStatusText();
         yield return new WaitForSeconds(recordLength);
         StopRecording();
     }
@@ -148,6 +153,7 @@ public class NormcoreGM : MonoBehaviour
         _isRecording = false;
         Debug.Log("Not Recording...");
         Microphone.End(null);
+        UpdateStatusText();
         this._Transcribe();
     }
 
@@ -188,7 +194,9 @@ public class NormcoreGM : MonoBehaviour
 
     private void UpdateStatusText()
     {
-        statusText.text = _isRecording ? "Recording..." : "Not Recording";
+        // statusText.text = _isRecording ? "Recording..." : "Not Recording";
+        Debug.Log("Status Text Updated based on Boolean");
+        _statusTextUGUI.text = _isRecording ? "REC..." : "PAUSED";
     }
 
     //Retrives the transcription of the audio file
