@@ -196,7 +196,7 @@ public class NormcoreGM : MonoBehaviour
     {
         // statusText.text = _isRecording ? "Recording..." : "Not Recording";
         Debug.Log("Status Text Updated based on Boolean");
-        _statusTextUGUI.text = _isRecording ? "REC..." : "STOPPED";
+        _statusTextUGUI.text = _isRecording ? "REC..." : "PAUSED";
     }
 
     //Retrives the transcription of the audio file
