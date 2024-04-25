@@ -20,10 +20,10 @@ public class StatusUpdate : MonoBehaviour
 
     void Update()
     {
-        // Make the status object face the camera
-        _statusObject.transform.LookAt(cameraTransform);
-
         // Update the position of the status object to match the controller with an offset
         _statusObject.transform.position = _controller.transform.position + _controller.transform.TransformDirection(offset);
+
+        // Make the status object face the camera
+        _statusObject.transform.LookAt(cameraTransform);
     }
 }
