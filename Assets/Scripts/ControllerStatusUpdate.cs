@@ -25,7 +25,6 @@ public class StatusUpdate : MonoBehaviour
 
         // Make the status object face the camera
         _statusObject.transform.LookAt(cameraTransform);
-        _statusObject.transform.Rotate(0, 0, 0);
-
+        _statusObject.transform.Rotate(180, 180, 0);
     }
 }
