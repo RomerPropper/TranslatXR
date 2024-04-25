@@ -6,23 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/colotest.unity
-    guid: 485d021f7c4554d389f4c7b792aa27ac
-  - enabled: 0
-    path: Assets/Samples/MRMUSK/0.0.7/Starter Samples/Scenes/MRMUSK MR Test.unity
-    guid: 62c159f16354f464b949cbe0e9a5bcfd
-  - enabled: 0
-    path: Assets/Samples/Meta XR Core SDK/60.0.0/Sample Scenes/VirtualKeyboard.unity
-    guid: c9684441ee1da1244a223118fdaa5d13
-  - enabled: 0
-    path: Assets/Scenes/SettingsMenu.unity
-    guid: 1be109564f103a242b1674ce611ba102
-  - enabled: 1
-    path: Assets/Scenes/CornellTestScene.unity
-    guid: 2cc9e73c368ceb522b82a30feea1e7f2
-  - enabled: 0
-    path: Assets/Scenes/JoseTest.unity
-    guid: 4b4bbcdd83ff03c4b9f930144e8b1932
+    path: Assets/Scenes/ArmandoTest.unity
+    guid: 0f8215ccfa714fa408ca77b2de99e5a6
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 836d7403a52087a4bb1d9d34e3398882,
       type: 2}
