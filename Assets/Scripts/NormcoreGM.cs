@@ -21,7 +21,7 @@ public class NormcoreGM : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _statusTextUGUI;
 
-    public int recordLength = 10;
+    public int recordLength = 5;
     private bool _isRecording = false;
     private bool _isReadyForNextRecording = true;
     private AudioClip recordedClip;
@@ -62,7 +62,8 @@ public class NormcoreGM : MonoBehaviour
             { "english", "en" },
             { "español", "es" },
             { "中文", "zh" },
-            { "日本語", "ja" }
+            { "日本語", "ja" },
+            { "한국어", "kr" }
         };
         _sampleRate = AudioSettings.outputSampleRate;
         monitoringClip = Microphone.Start(null, true, 10, _sampleRate);
@@ -152,8 +153,8 @@ public class NormcoreGM : MonoBehaviour
     {
         _isRecording = false;
         Debug.Log("Not Recording...");
-        Microphone.End(null);
         UpdateStatusText();
+        Microphone.End(null);
         this._Transcribe();
     }
 
@@ -258,8 +259,8 @@ public class NormcoreGM : MonoBehaviour
     public void joinAnnouncement()
     {
         int localPlayerID = playerManager.localAvatar != null ? playerManager.localAvatar.realtimeView.ownerIDSelf : -1;
-        string Announcement = profile.Language + " speaker " + profile.UserName + " has joined the room!";
-        Message newMessage = new Message(profile.UserName, Announcement, profile.Language, "Unknown", localPlayerID);
+        string Announcement = profile.UserName + " has joined the room!";
+        Message newMessage = new Message("TranslatXR", Announcement, profile.Language, "Unknown", localPlayerID);
         Debug.Log(Announcement);
         _chatSync.SendMessage(newMessage);
     }
