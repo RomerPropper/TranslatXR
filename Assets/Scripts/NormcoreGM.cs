@@ -21,7 +21,7 @@ public class NormcoreGM : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _statusTextUGUI;
 
-    public int recordLength = 5;
+    public int recordLength = 10;
     private bool _isRecording = false;
     private bool _isReadyForNextRecording = true;
     private AudioClip recordedClip;
