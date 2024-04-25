@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/ArmandoTest.unity
-    guid: 0f8215ccfa714fa408ca77b2de99e5a6
+    path: Assets/Scenes/colotest.unity
+    guid: 485d021f7c4554d389f4c7b792aa27ac
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 836d7403a52087a4bb1d9d34e3398882,
       type: 2}
